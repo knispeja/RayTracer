@@ -1,0 +1,17 @@
+# When I run the compiled program as
+#   ./a.out day1.obj
+# I get this output:
+
+#red is: 255 0 0
+#Found a camera
+# position: 0.000000 20.000000 40.000000
+# looking at: 0.000000 20.000000 20.000000
+# up normal: 0.000000 0.000000 -1.000000
+
+#it also creates a test.png file.
+
+# a test camera
+v  0 20 40
+v  0 20 20
+vn  0 0 -1
+c -2 -1 -1
