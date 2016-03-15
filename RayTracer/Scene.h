@@ -23,5 +23,11 @@ public:
 private:
 	Camera* camera;
 	vector<PrimitiveGeometry*> objects;
+
+	void deallocCamera()
+	{
+		if (this->camera != NULL)
+			delete this->camera;
+	}
 };
 

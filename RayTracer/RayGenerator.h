@@ -31,13 +31,8 @@ public:
 
 	Ray getRay(unsigned int x, unsigned int y)
 	{
-		// TODO make this more efficient
-		Vector3 imagePlaneCenter = this->camera->getImagePlaneCenter();
-		Vector3 imagePlaneOriginTop = (imagePlaneCenter + (this->camera->getUp() * (this->h / 2)));
-
 		Vector3 leftRelativeToView = this->camera->getUp().cross(this->camera->getLook());
-		Vector3 imagePlaneOrigin = (imagePlaneOriginTop + (leftRelativeToView * (this->w / 2)));
-
+		Vector3 imagePlaneOrigin = (this->camera->getImagePlaneCenter() + (this->camera->getUp() * (this->h / 2)) + (leftRelativeToView * (this->w / 2)));
 		Vector3 rayDir = (imagePlaneOrigin - (leftRelativeToView * x) - (this->camera->getUp() * y));
 
 		return Ray(this->camera->getOrigin(), rayDir);

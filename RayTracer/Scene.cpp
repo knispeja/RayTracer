@@ -11,18 +11,21 @@ Scene::Scene()
 
 Scene::~Scene()
 {
-	delete this->camera;
+	deallocCamera();
 
+	// Dealloc all geometries in this->objects
 	for (int i = 0; i < (this->objects.size()); i++)
 	{
-		delete this->objects[i];
+		if (this->objects[i] != NULL)
+			delete this->objects[i];
+		else
+			printf("Object %d in Scene was NULL for some reason...", i);
 	}
 }
 
 void Scene::setCamera(Camera* camera)
 {
-	if (this->camera != NULL)
-		delete this->camera;
+	deallocCamera();
 	this->camera = camera;
 }
 
