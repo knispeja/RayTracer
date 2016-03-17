@@ -1,7 +1,6 @@
 #include "libs\vector\GenVector.h"
 #include "libs\objload\objLoader.h"
 #include "Scene.h"
-
 #include "Sphere.h"
 #include "Triangle.h"
 
@@ -35,12 +34,28 @@ void loadScene(Scene* scene, char* file)
 		);
 	scene->setCamera(new Camera(camOrigin, camLook, camUp));
 
+	//Create materials
+	scene->addMaterial(new Material()); // Default material
+	for (int i = 0; i < objData.materialCount; i++)
+	{
+		Material* material = new Material();
+		obj_material* objMat = objData.materialList[i];
+
+		// TODO setup material
+		//material->ka = objMat->amb;
+
+		scene->addMaterial(material);
+	}
+
+	// Add primitives to scene
 	for (int i = 0; i < objData.sphereCount; i++) // Add spheres to scene...
 	{
 		Vector3 spherePosVector = objToGenVec(objData.vertexList[objData.sphereList[i]->pos_index]);
 		Vector3 sphereUpVector = objToGenVec(objData.normalList[objData.sphereList[i]->up_normal_index]);
 
-		scene->addObjectToScene(new Sphere(spherePosVector, sphereUpVector.length()));
+		Material* mat = scene->getMaterial(objData.sphereList[i]->material_index + 1);
+
+		scene->addObjectToScene(new Sphere(mat, spherePosVector, sphereUpVector.length()));
 	}
 
 	for (int i = 0; i < objData.faceCount; i++) // Add triangles to scene...
@@ -49,6 +64,9 @@ void loadScene(Scene* scene, char* file)
 		Vector3 v0 = objToGenVec(objData.vertexList[vertices[0]]);
 		Vector3 v1 = objToGenVec(objData.vertexList[vertices[1]]);
 		Vector3 v2 = objToGenVec(objData.vertexList[vertices[2]]);
-		scene->addObjectToScene(new Triangle(v0, v1, v2));
+
+		Material* mat = scene->getMaterial(objData.faceList[i]->material_index + 1);
+
+		scene->addObjectToScene(new Triangle(mat, v0, v1, v2));
 	}
 }

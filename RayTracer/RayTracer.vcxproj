@@ -80,12 +80,14 @@
   <ItemGroup>
     <ClInclude Include="..\Buffer.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="HitPoint.h" />
     <ClInclude Include="libs\objload\list.h" />
     <ClInclude Include="libs\objload\objLoader.h" />
     <ClInclude Include="libs\objload\obj_parser.h" />
     <ClInclude Include="libs\objload\string_extra.h" />
     <ClInclude Include="libs\png\simplePNG.h" />
     <ClInclude Include="libs\vector\GenVector.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="PrimitiveGeometry.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="RayGenerator.h" />

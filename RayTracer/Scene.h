@@ -12,16 +12,21 @@ public:
 	~Scene();
 
 	void setCamera(Camera* camera);
+
 	void addObjectToScene(PrimitiveGeometry* obj);
 	void printObjectsInScene();
 	
+	void addMaterial(Material* mat);
+	Material* getMaterial(unsigned int matIndex);
+
 	Camera* getCamera();
-	int getFirstRayIntersectionDist(Ray ray);
+	HitPoint getFirstRayIntersection(Ray ray);
 
 	unsigned int getNumObjectsInScene();
 
 private:
 	Camera* camera;
+	vector<Material*> materials;
 	vector<PrimitiveGeometry*> objects;
 
 	void deallocCamera()

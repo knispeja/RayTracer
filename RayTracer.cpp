@@ -40,14 +40,18 @@ int main(int argc, char ** argv)
 		for (int x = 0; x<RES; x++)
 		{
 			Ray r = generator.getRay(x, y);
+			HitPoint hp = scene.getFirstRayIntersection(r);
 
-			if (scene.getFirstRayIntersectionDist(r) < 0)
-			{
-				Color c;
-				Vector3 d = r.getDirection()*255.0f;
-				c = Color(abs(d[0]), abs(d[1]), abs(d[2]));
-				buffer.at(x, y) = c;
-			}
+			Vector3 colorVec;
+			if (hp.dist < 0)
+				colorVec = r.getDirection();
+			else
+				colorVec = hp.normal;
+
+			Color c;
+			Vector3 d = colorVec*255.0f;
+			c = Color(abs(d[0]), abs(d[1]), abs(d[2]));
+			buffer.at(x, y) = c;
 		}
 	}
 

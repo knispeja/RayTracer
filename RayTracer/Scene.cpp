@@ -6,6 +6,9 @@ using namespace std;
 Scene::Scene()
 {
 	this->objects = vector<PrimitiveGeometry*>();
+
+	this->materials = vector<Material*>();
+
 	this->camera = NULL;
 }
 
@@ -20,6 +23,12 @@ Scene::~Scene()
 			delete this->objects[i];
 		else
 			printf("Object %d in Scene was NULL for some reason...", i);
+	}
+
+	// Dealloc all materials in this->materials
+	for (int i = 0; i < (this->materials.size()); i++)
+	{
+		delete this->materials[i];
 	}
 }
 
@@ -43,24 +52,42 @@ void Scene::printObjectsInScene()
 	}
 }
 
+void Scene::addMaterial(Material* mat)
+{
+	this->materials.push_back(mat);
+}
+
+Material* Scene::getMaterial(unsigned int matIndex)
+{
+	return this->materials[matIndex];
+}
+
 Camera* Scene::getCamera()
 {
 	return this->camera;
 }
 
-int Scene::getFirstRayIntersectionDist(Ray ray)
+HitPoint Scene::getFirstRayIntersection(Ray ray)
 {
 	int minDist = -1;
+	HitPoint hp = HitPoint();
+
 	for (int i = 0; i < (this->objects.size()); i++)
 	{
-		int dist = this->objects[i]->distanceRayIntersectsGeometry(ray);
+		HitPoint hit = this->objects[i]->intersectWithRay(ray);
+		int dist = hit.dist;
+
 		if (dist >= 0)
 		{
 			if (minDist == -1 || dist < minDist)
+			{
 				minDist = dist;
+				hp = hit;
+			}
 		}
 	}
-	return minDist;
+
+	return hp;
 }
 
 unsigned int Scene::getNumObjectsInScene()

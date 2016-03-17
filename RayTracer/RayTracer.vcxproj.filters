@@ -60,6 +60,12 @@
     <ClInclude Include="SceneLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="HitPoint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\RayTracer.cpp">
