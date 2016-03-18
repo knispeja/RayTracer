@@ -1,4 +1,5 @@
 #pragma once
+#include "Light.h"
 #include "Camera.h"
 #include "PrimitiveGeometry.h"
 
@@ -27,6 +28,7 @@ public:
 private:
 	Camera* camera;
 	vector<Material*> materials;
+	vector<Light*> lights;
 	vector<PrimitiveGeometry*> objects;
 
 	void deallocCamera()

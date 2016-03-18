@@ -344,7 +344,7 @@ public:
 
 	T distance(const GenVector& a)
 	{
-		T disSquared = this->lengthSquared(a);
+		T disSquared = this->distanceSquared(a);
 		return sqrt( disSquared );
 	}
 	

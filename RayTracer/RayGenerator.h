@@ -7,8 +7,8 @@ class RayGenerator
 {
 public:
 	Camera* camera;
-	unsigned int w;
-	unsigned int h;
+	float w;
+	float h;
 
 	RayGenerator()
 	{
@@ -29,11 +29,15 @@ public:
 		// Don't delete the camera because it is deleted by its associated Scene
 	}
 
-	Ray getRay(unsigned int x, unsigned int y)
+	Ray getRay(float x, float y)
 	{
-		Vector3 leftRelativeToView = this->camera->getUp().cross(this->camera->getLook());
-		Vector3 imagePlaneOrigin = (this->camera->getImagePlaneCenter() + (this->camera->getUp() * (this->h / 2)) + (leftRelativeToView * (this->w / 2)));
-		Vector3 rayDir = (imagePlaneOrigin - (leftRelativeToView * x) - (this->camera->getUp() * y));
+		Vector3 negw = this->camera->getLook();
+		Vector3 u = this->camera->getUp().cross(this->camera->getLook());
+		Vector3 v = this->camera->getUp();
+
+		float normx = (-1 * (x / this->w) + 0.5f) * 2;
+		float normy = (-1 * (y / this->h) + 0.5f) * 2;
+		Vector3 rayDir = (negw + (u * normx) + (v * normy));
 
 		return Ray(this->camera->getOrigin(), rayDir);
 	}

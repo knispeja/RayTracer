@@ -9,25 +9,18 @@ public:
 
 	Camera()
 	{
-		this->distanceFromImagePlane = DEFAULT_DISTANCE_FROM_IMAGE_PLANE;
-
 		this->origin = NULL;
 		this->look = NULL;
 		this->up = NULL;
-
-		recalculateImagePlaneCenter();
 	}
 
-	Camera(Vector3 origin, Vector3 look, Vector3 up)
+	Camera(Vector3 origin, Vector3 lookAt, Vector3 up)
 	{
-		this->distanceFromImagePlane = DEFAULT_DISTANCE_FROM_IMAGE_PLANE;
-
+		this->imagePlaneCenter = lookAt;
 		this->origin = origin;
-		this->look = look;
+		this->look = (lookAt - origin).normalize();
 		this->up = up;
-
-		normalizeVectors();
-		recalculateImagePlaneCenter();
+		this->up.normalize();
 	}
 
 	~Camera()
@@ -55,44 +48,21 @@ public:
 		return this->imagePlaneCenter;
 	}
 
-	void increaseFOV()
+	float getDistanceFromImagePlane()
 	{
-		this->distanceFromImagePlane++;
-		recalculateImagePlaneCenter();
-	}
-
-	void decreaseFOV()
-	{
-		if (distanceFromImagePlane > 1)
-		{
-			this->distanceFromImagePlane--;
-			recalculateImagePlaneCenter();
-		}
+		return this->origin.distance(this->imagePlaneCenter);
 	}
 
 	void print()
 	{
-		printf("Camera (pos: (%f, %f, %f))\n", this->origin.c[0], this->origin.c[1], this->origin.c[2]);
+		printf("Camera (pos: (%f, %f, %f) look: (%f, %f, %f))\n", this->origin.c[0], this->origin.c[1], this->origin.c[2], this->look.c[0], this->look.c[1], this->look.c[2]);
 	}
 
 private:
-	static const unsigned int DEFAULT_DISTANCE_FROM_IMAGE_PLANE = 50;
-
-	unsigned int distanceFromImagePlane;
+	float distanceFromImagePlane;
 	Vector3 imagePlaneCenter;
 	Vector3 origin;
 	Vector3 look;
 	Vector3 up;
-
-	void normalizeVectors()
-	{
-		this->look.normalize();
-		this->up.normalize();
-	}
-
-	void recalculateImagePlaneCenter()
-	{
-		this->imagePlaneCenter = (this->origin + (this->look * this->distanceFromImagePlane));
-	}
 };
 

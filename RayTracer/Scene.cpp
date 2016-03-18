@@ -45,7 +45,20 @@ void Scene::addObjectToScene(PrimitiveGeometry* obj)
 
 void Scene::printObjectsInScene()
 {
+	printf("---------------------------------------\n");
+	printf("Materials:\n");
+	for (int i = 0; i < this->materials.size(); i++)
+	{
+		Vector3 ka = this->materials[i]->ka;
+		printf("Material %d ka = [%f %f %f]\n", i, ka.c[0], ka.c[1], ka.c[2]);
+	}
+
+	printf("---------------------------------------\n");
+	printf("Camera:\n");
 	this->camera->print();
+
+	printf("---------------------------------------\n");
+	printf("Geometries:\n");
 	for (int i = 0; i < (this->objects.size()); i++)
 	{
 		this->objects[i]->print();
@@ -54,6 +67,7 @@ void Scene::printObjectsInScene()
 
 void Scene::addMaterial(Material* mat)
 {
+	printf("added material %d with ka %f %f %f\n", this->materials.size(), mat->ka.c[0], mat->ka.c[1], mat->ka.c[2]);
 	this->materials.push_back(mat);
 }
 
@@ -70,7 +84,7 @@ Camera* Scene::getCamera()
 HitPoint Scene::getFirstRayIntersection(Ray ray)
 {
 	int minDist = -1;
-	HitPoint hp = HitPoint();
+	HitPoint hp;
 
 	for (int i = 0; i < (this->objects.size()); i++)
 	{

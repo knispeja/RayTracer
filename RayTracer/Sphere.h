@@ -6,21 +6,21 @@ class Sphere : public PrimitiveGeometry
 public:
 	Sphere()
 	{
-		this->material = 0;
+		this->materialID = 0;
 		this->center = NULL;
 		this->radius = 0;
 	}
 
 	Sphere(Vector3 center, float radius)
 	{
-		this->material = 0;
+		this->materialID = 0;
 		this->center = center;
 		this->radius = radius;
 	}
 
-	Sphere(Material* material, Vector3 center, float radius)
+	Sphere(unsigned int materialID, Vector3 center, float radius)
 	{
-		this->material = material;
+		this->materialID = materialID;
 		this->center = center;
 		this->radius = radius;
 	}
@@ -39,12 +39,13 @@ public:
 	{
 		printf("center: (%0.2f %0.2f %0.2f)", this->center.c[0], this->center.c[1], this->center.c[2]);
 		printf(", radius: %0.2f", this->radius);
+		printf(", assigned material #%d", this->materialID);
 	}
 
 	virtual HitPoint intersectWithRay(Ray ray)
 	{
 		HitPoint hp = HitPoint();
-		hp.material = this->material;
+		hp.materialID = this->materialID;
 		hp.normal = this->center; // TODO CHANGE THIS!!
 
 		Vector3 d = ray.getDirection();

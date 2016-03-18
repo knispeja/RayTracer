@@ -1,14 +1,15 @@
 struct Material {
-	Material() : ka(0.7), kd(0.7), ks(0.7), specAlpha(0.3), reflect(0.4), opacity(0){}
+	Material() : ka(Vector3(0.3, 0.7, 0.7)), kd(Vector3(0.7, 0.7, 0.7)), ks(Vector3(0.7, 0.7, 0.7)){}
 
-	double ka;
-	double kd;
-	double ks;
+	Vector3 ka;
+	Vector3 kd;
+	Vector3 ks;
 
-	double specAlpha;
-	double reflect;
-	double opacity;
+	//double specAlpha;
+	//double reflect;
+	//double opacity;
 
+	/*
 	bool operator==(const Material& other)
 	{
 		return (this->ka == other.ka) &&
@@ -17,5 +18,5 @@ struct Material {
 			(this->specAlpha == other.specAlpha) &&
 			(this->reflect == other.reflect) &&
 			(this->opacity == other.opacity);
-	}
+	}*/
 };

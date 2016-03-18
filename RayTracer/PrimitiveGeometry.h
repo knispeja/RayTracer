@@ -18,12 +18,12 @@ public:
 		printf(")\n");
 	}
 
-	Material* getMaterial()
+	unsigned int getMaterial()
 	{
-		return this->material;
+		return this->materialID;
 	}
 
 protected:
-	Material* material;
+	unsigned int materialID;
 };
 

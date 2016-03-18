@@ -3,7 +3,7 @@
 struct HitPoint {
 	HitPoint() : normal(Vector3()), dist(-1){}
 
-	Material* material;
+	unsigned int materialID;
 	Vector3 normal;
 	float dist;
 };

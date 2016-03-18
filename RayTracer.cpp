@@ -46,11 +46,13 @@ int main(int argc, char ** argv)
 			if (hp.dist < 0)
 				colorVec = r.getDirection();
 			else
-				colorVec = hp.normal;
+				colorVec = scene.getMaterial(hp.materialID)->ka;
 
 			Color c;
 			Vector3 d = colorVec*255.0f;
 			c = Color(abs(d[0]), abs(d[1]), abs(d[2]));
+
+			// TODO tone mapping (find max component, scale so that = 255)
 			buffer.at(x, y) = c;
 		}
 	}

@@ -13,6 +13,11 @@ Vector3 objToGenVec(obj_vector const * objVec)
 	return v;
 }
 
+Vector3 materialArrayToVec(double arr[3])
+{
+	return Vector3(arr[0], arr[1], arr[2]);
+}
+
 void loadScene(Scene* scene, char* file)
 {
 	//Load *.obj from file argv1
@@ -39,10 +44,13 @@ void loadScene(Scene* scene, char* file)
 	for (int i = 0; i < objData.materialCount; i++)
 	{
 		Material* material = new Material();
+
 		obj_material* objMat = objData.materialList[i];
 
 		// TODO setup material
-		//material->ka = objMat->amb;
+		material->ka = materialArrayToVec(objMat->amb);
+		material->kd = materialArrayToVec(objMat->diff);
+		material->ks = materialArrayToVec(objMat->spec);
 
 		scene->addMaterial(material);
 	}
@@ -53,9 +61,7 @@ void loadScene(Scene* scene, char* file)
 		Vector3 spherePosVector = objToGenVec(objData.vertexList[objData.sphereList[i]->pos_index]);
 		Vector3 sphereUpVector = objToGenVec(objData.normalList[objData.sphereList[i]->up_normal_index]);
 
-		Material* mat = scene->getMaterial(objData.sphereList[i]->material_index + 1);
-
-		scene->addObjectToScene(new Sphere(mat, spherePosVector, sphereUpVector.length()));
+		scene->addObjectToScene(new Sphere(objData.sphereList[i]->material_index + 1, spherePosVector, sphereUpVector.length()));
 	}
 
 	for (int i = 0; i < objData.faceCount; i++) // Add triangles to scene...
@@ -65,8 +71,6 @@ void loadScene(Scene* scene, char* file)
 		Vector3 v1 = objToGenVec(objData.vertexList[vertices[1]]);
 		Vector3 v2 = objToGenVec(objData.vertexList[vertices[2]]);
 
-		Material* mat = scene->getMaterial(objData.faceList[i]->material_index + 1);
-
-		scene->addObjectToScene(new Triangle(mat, v0, v1, v2));
+		scene->addObjectToScene(new Triangle(objData.faceList[i]->material_index + 1, v0, v1, v2));
 	}
 }
