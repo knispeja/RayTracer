@@ -16,6 +16,18 @@ Scene::~Scene()
 {
 	deallocCamera();
 
+	// Dealloc all materials in this->materials
+	for (int i = 0; i < (this->materials.size()); i++)
+	{
+		delete this->materials[i];
+	}
+
+	// Dealloc all lights in this->lights
+	for (int i = 0; i < (this->lights.size()); i++)
+	{
+		delete this->lights[i];
+	}
+
 	// Dealloc all geometries in this->objects
 	for (int i = 0; i < (this->objects.size()); i++)
 	{
@@ -23,12 +35,6 @@ Scene::~Scene()
 			delete this->objects[i];
 		else
 			printf("Object %d in Scene was NULL for some reason...", i);
-	}
-
-	// Dealloc all materials in this->materials
-	for (int i = 0; i < (this->materials.size()); i++)
-	{
-		delete this->materials[i];
 	}
 }
 
@@ -38,13 +44,24 @@ void Scene::setCamera(Camera* camera)
 	this->camera = camera;
 }
 
-void Scene::addObjectToScene(PrimitiveGeometry* obj)
+void Scene::addObject(PrimitiveGeometry* obj)
 {
 	this->objects.push_back(obj);
 }
 
-void Scene::printObjectsInScene()
+void Scene::printObjects()
 {
+	printf("---------------------------------------\n");
+	printf("Camera:\n");
+	this->camera->print();
+
+	printf("---------------------------------------\n");
+	printf("Lights:\n");
+	for (int i = 0; i < this->lights.size(); i++)
+	{
+		this->lights[i]->print();
+	}
+
 	printf("---------------------------------------\n");
 	printf("Materials:\n");
 	for (int i = 0; i < this->materials.size(); i++)
@@ -52,10 +69,6 @@ void Scene::printObjectsInScene()
 		Vector3 ka = this->materials[i]->ka;
 		printf("Material %d ka = [%f %f %f]\n", i, ka.c[0], ka.c[1], ka.c[2]);
 	}
-
-	printf("---------------------------------------\n");
-	printf("Camera:\n");
-	this->camera->print();
 
 	printf("---------------------------------------\n");
 	printf("Geometries:\n");
@@ -74,6 +87,19 @@ void Scene::addMaterial(Material* mat)
 Material* Scene::getMaterial(unsigned int matIndex)
 {
 	return this->materials[matIndex];
+}
+
+void Scene::addLight(Light* light)
+{
+	this->lights.push_back(light);
+}
+
+void Scene::printLights()
+{
+	for (int i = 0; i < this->lights.size(); i++)
+	{
+		this->lights[i]->print();
+	}
 }
 
 Camera* Scene::getCamera()

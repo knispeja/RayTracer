@@ -14,11 +14,14 @@ public:
 
 	void setCamera(Camera* camera);
 
-	void addObjectToScene(PrimitiveGeometry* obj);
-	void printObjectsInScene();
+	void addObject(PrimitiveGeometry* obj);
+	void printObjects();
 	
 	void addMaterial(Material* mat);
 	Material* getMaterial(unsigned int matIndex);
+
+	void addLight(Light* light);
+	void printLights();
 
 	Camera* getCamera();
 	HitPoint getFirstRayIntersection(Ray ray);

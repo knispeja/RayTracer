@@ -29,7 +29,7 @@ int main(int argc, char ** argv)
 	//Create and add objects to the scene
 	Scene scene = Scene();
 	loadScene(&scene, argv[1]);
-	scene.printObjectsInScene(); // Print everything in the scene for testing
+	scene.printObjects(); // Print everything in the scene for testing
 
 	//Create a ray generator for the camera
 	RayGenerator generator = RayGenerator(scene.getCamera(), RES, RES);
@@ -44,7 +44,7 @@ int main(int argc, char ** argv)
 
 			Vector3 colorVec;
 			if (hp.dist < 0)
-				colorVec = r.getDirection();
+				colorVec = Vector3(0, 0, 0);
 			else
 				colorVec = scene.getMaterial(hp.materialID)->ka;
 

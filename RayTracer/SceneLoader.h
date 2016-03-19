@@ -55,13 +55,24 @@ void loadScene(Scene* scene, char* file)
 		scene->addMaterial(material);
 	}
 
-	// Add primitives to scene
+	//Add lights to scene
+	for (int i = 0; i < objData.lightPointCount; i++)
+	{
+		obj_light_point* objLight = objData.lightPointList[i];
+
+		Vector3 lightPos = objToGenVec(objData.vertexList[objLight->pos_index]);
+		unsigned int materialID = objLight->material_index + 1;
+
+		scene->addLight(new Light(lightPos, materialID));
+	}
+
+	//Add geometry primitives to scene
 	for (int i = 0; i < objData.sphereCount; i++) // Add spheres to scene...
 	{
 		Vector3 spherePosVector = objToGenVec(objData.vertexList[objData.sphereList[i]->pos_index]);
 		Vector3 sphereUpVector = objToGenVec(objData.normalList[objData.sphereList[i]->up_normal_index]);
 
-		scene->addObjectToScene(new Sphere(objData.sphereList[i]->material_index + 1, spherePosVector, sphereUpVector.length()));
+		scene->addObject(new Sphere(objData.sphereList[i]->material_index + 1, spherePosVector, sphereUpVector.length()));
 	}
 
 	for (int i = 0; i < objData.faceCount; i++) // Add triangles to scene...
@@ -71,6 +82,6 @@ void loadScene(Scene* scene, char* file)
 		Vector3 v1 = objToGenVec(objData.vertexList[vertices[1]]);
 		Vector3 v2 = objToGenVec(objData.vertexList[vertices[2]]);
 
-		scene->addObjectToScene(new Triangle(objData.faceList[i]->material_index + 1, v0, v1, v2));
+		scene->addObject(new Triangle(objData.faceList[i]->material_index + 1, v0, v1, v2));
 	}
 }

@@ -46,7 +46,6 @@ public:
 	{
 		HitPoint hp = HitPoint();
 		hp.materialID = this->materialID;
-		hp.normal = this->center; // TODO CHANGE THIS!!
 
 		Vector3 d = ray.getDirection();
 		Vector3 e = ray.getOrigin();
