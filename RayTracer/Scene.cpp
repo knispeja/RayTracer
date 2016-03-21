@@ -127,7 +127,50 @@ HitPoint Scene::getFirstRayIntersection(Ray ray)
 		}
 	}
 
+	if (minDist != -1)
+		hp.intersectionPoint = (ray.getOrigin() + (ray.getDirection() * hp.dist));
+
 	return hp;
+}
+
+Vector3 Scene::colorPointBasedOnShadow(HitPoint hp)
+{
+	Vector3 returnColor = Vector3(0, 0, 0); //Black
+	Material* objMat = this->materials[hp.materialID];
+
+	for (unsigned int i = 0; i < this->lights.size(); i++)
+	{
+		unsigned int distFromLight = this->lights[i]->getPosition().distance(hp.intersectionPoint);
+		Material* lightMat = this->materials[this->lights[i]->getMaterialID()];
+
+		Vector3 lightNorm = (this->lights[i]->getPosition() - hp.intersectionPoint).normalize();
+
+		Ray rayToLight = Ray(hp.intersectionPoint + LIGHT_RAY_JITTER*lightNorm, lightNorm);
+		float dotProd = lightNorm.dot(hp.normal);
+		
+		if (dotProd < 0)
+			dotProd = 0;
+
+		//Ambient
+		Vector3 ambient = lightMat->ka * objMat->ka;
+		returnColor += ambient;
+
+		if (getFirstRayIntersection(rayToLight).dist < distFromLight)
+			continue;
+
+		//Diffuse
+		Vector3 diffuse = objMat->kd * (dotProd)* lightMat->kd; // TODO Times light intesnity
+		returnColor += diffuse;
+
+		//Specular
+		Vector3 lightReflectVector = 2 * dotProd * hp.normal - rayToLight.getDirection();
+		Vector3 vecToCamera = (this->camera->getOrigin() - rayToLight.getOrigin()).normalize();
+
+		Vector3 specular = objMat->ks * pow(vecToCamera.dot(lightReflectVector), objMat->shiny) * lightMat->ks; // TODO times light intensity
+		returnColor += specular;
+	}
+
+	return returnColor;
 }
 
 unsigned int Scene::getNumObjectsInScene()

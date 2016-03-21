@@ -369,13 +369,13 @@ public:
 		*this = *this - (normal * scale);
 	}
 
-	int maxComponent()
+	float maxComponent()
 	{
 		int largest = 0;
 		for(int i=1; i<dimension; i++)
 			if(c[i] > c[i-1])
 				largest = i;
-		return largest;
+		return this->c[largest];
 	}
 	
 	int maxMagnitudeComponent()

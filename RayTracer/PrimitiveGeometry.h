@@ -18,7 +18,7 @@ public:
 		printf(")\n");
 	}
 
-	unsigned int getMaterial()
+	unsigned int getMaterialID()
 	{
 		return this->materialID;
 	}

@@ -3,6 +3,7 @@
 
 #include "RayTracer/libs/vector/GenVector.h"
 
+template<class T = Color>
 class Buffer
 {
 public:
@@ -28,7 +29,7 @@ public:
 
 	Buffer & operator=(Buffer const & buffer)
 	{
-		if(this == &buffer)
+		if (this == &buffer)
 			return *this;
 
 		dealloc();
@@ -42,39 +43,43 @@ public:
 		dealloc();
 	}
 
-	Color at(unsigned int x, unsigned int y) const
+	T at(unsigned int x, unsigned int y) const
 	{
-		return data[x+y*this->w];
+		return data[x + y*this->w];
 	}
 
-	Color & at(unsigned int x, unsigned int y)
+	T & at(unsigned int x, unsigned int y)
 	{
-		return data[x+y*this->w];
+		return data[x + y*this->w];
 	}
 
 	size_t getWidth() const
-	{ return this->w; }
+	{
+		return this->w;
+	}
 
 	size_t getHeight() const
-	{ return this->h; }
+	{
+		return this->h;
+	}
 
 private:
 	unsigned int w;
 	unsigned int h;
-	Color * data;
+	T * data;
 
 	void alloc()
 	{
 		size_t size = this->w * this->h;
-		if(size == 0)
+		if (size == 0)
 			return;
 
-		data = (Color*) malloc(this->w * this->h * sizeof(Color) );
+		data = (T*)malloc(this->w * this->h * sizeof(T));
 	}
 
 	void dealloc()
 	{
-		if(this->data != NULL)
+		if (this->data != NULL)
 			free(data);
 	}
 
@@ -84,7 +89,7 @@ private:
 		this->h = buffer.h;
 
 		alloc();
-		for(size_t i=0; i<this->w*this->h; i++)
+		for (size_t i = 0; i<this->w*this->h; i++)
 			this->data[i] = buffer.data[i];
 	}
 };

@@ -51,6 +51,7 @@ void loadScene(Scene* scene, char* file)
 		material->ka = materialArrayToVec(objMat->amb);
 		material->kd = materialArrayToVec(objMat->diff);
 		material->ks = materialArrayToVec(objMat->spec);
+		material->shiny = objMat->shiny;
 
 		scene->addMaterial(material);
 	}

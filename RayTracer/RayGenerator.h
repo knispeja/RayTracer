@@ -31,13 +31,13 @@ public:
 
 	Ray getRay(float x, float y)
 	{
-		Vector3 negw = this->camera->getLook();
+		Vector3 w = this->camera->getLook();
 		Vector3 u = this->camera->getUp().cross(this->camera->getLook());
 		Vector3 v = this->camera->getUp();
 
 		float normx = (-1 * (x / this->w) + 0.5f) * 2;
 		float normy = (-1 * (y / this->h) + 0.5f) * 2;
-		Vector3 rayDir = (negw + (u * normx) + (v * normy));
+		Vector3 rayDir = (w + (u * normx) + (v * normy));
 
 		return Ray(this->camera->getOrigin(), rayDir);
 	}

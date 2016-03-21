@@ -17,10 +17,11 @@
 int main(int argc, char ** argv)
 {
 	//Create buffer
-	Buffer buffer = Buffer(RES, RES);
+	Buffer<Color> buffer = Buffer<Color>(RES, RES);
+	Buffer<Vector3> floatbuffer = Buffer<Vector3>(RES, RES);
 
 	//Need at least two arguments (*.obj input, *.png output)
-	if(argc < 3)
+	if (argc < 3)
 	{
 		printf("Usage %s input.obj output.png\n", argv[0]);
 		exit(0);
@@ -35,25 +36,37 @@ int main(int argc, char ** argv)
 	RayGenerator generator = RayGenerator(scene.getCamera(), RES, RES);
 
 	//Test ray generator by changing pixel colors
-	for (int y = 0; y<RES; y++)
+
+	float maxComponent = -1;
+	for (unsigned int y = 0; y < RES; y++)
 	{
-		for (int x = 0; x<RES; x++)
+		for (unsigned int x = 0; x < RES; x++)
 		{
 			Ray r = generator.getRay(x, y);
 			HitPoint hp = scene.getFirstRayIntersection(r);
-
-			Vector3 colorVec;
+			Vector3 c;
 			if (hp.dist < 0)
-				colorVec = Vector3(0, 0, 0);
+				c = Vector3(0, 0, 0);
 			else
-				colorVec = scene.getMaterial(hp.materialID)->ka;
+				c = scene.colorPointBasedOnShadow(hp);
 
-			Color c;
-			Vector3 d = colorVec*255.0f;
-			c = Color(abs(d[0]), abs(d[1]), abs(d[2]));
+			// Keeping track of the maximum component for tone mapping later
+			if (maxComponent < c.maxComponent())
+				maxComponent = c.maxComponent();
 
-			// TODO tone mapping (find max component, scale so that = 255)
-			buffer.at(x, y) = c;
+			floatbuffer.at(x, y) = c;
+		}
+	}
+
+	// Scaling/tone mapping
+	for (unsigned int y = 0; y < RES; y++)
+	{
+		for (unsigned int x = 0; x < RES; x++)
+		{
+			for (unsigned int i = 0; i < 3; i++)
+				floatbuffer.at(x, y).c[i] *= (255.0f / maxComponent);
+
+			buffer.at(x, y) = Color(floatbuffer.at(x, y).c[0], floatbuffer.at(x, y).c[1], floatbuffer.at(x, y).c[2]);
 		}
 	}
 
