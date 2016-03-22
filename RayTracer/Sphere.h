@@ -69,8 +69,7 @@ public:
 		hp.dist = negtop / bot;
 
 		// Get normal vector from sphere center to intersection point
-		Vector3 intersectionPoint = ray.getOrigin() + (ray.getDirection() * hp.dist);
-		hp.normal = (intersectionPoint - this->center).normalize();
+		hp.normal = (ray.getOrigin() - this->center).normalize();
 		return hp;
 	}
 

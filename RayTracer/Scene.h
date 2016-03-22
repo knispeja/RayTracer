@@ -25,12 +25,15 @@ public:
 
 	Camera* getCamera();
 	HitPoint getFirstRayIntersection(Ray ray);
-	Vector3 colorPointBasedOnShadow(HitPoint hp);
+	Vector3 colorPointBasedOnShadow(Ray hitRay, HitPoint hp, unsigned int recursiveDepth = 0);
+	Vector3 traceReflection(Ray reflectRay, HitPoint reflectPt, Vector3 colorWOReflection, unsigned int recursiveDepth);
 
 	unsigned int getNumObjectsInScene();
 
 private:
-	const float LIGHT_RAY_JITTER = 0.0001f;
+	const float LIGHT_RAY_JITTER = 0.001f;
+	const unsigned int MAX_REFLECTION_RECURSION_DEPTH = 10;
+	const Vector3 COLOR_OF_NOTHINGNESS = Vector3(0, 0, 0);
 
 	Camera* camera;
 	vector<Material*> materials;

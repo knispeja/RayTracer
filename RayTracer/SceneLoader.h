@@ -47,11 +47,11 @@ void loadScene(Scene* scene, char* file)
 
 		obj_material* objMat = objData.materialList[i];
 
-		// TODO setup material
 		material->ka = materialArrayToVec(objMat->amb);
 		material->kd = materialArrayToVec(objMat->diff);
 		material->ks = materialArrayToVec(objMat->spec);
 		material->shiny = objMat->shiny;
+		material->reflect = objMat->reflect;
 
 		scene->addMaterial(material);
 	}

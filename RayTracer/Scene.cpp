@@ -18,15 +18,11 @@ Scene::~Scene()
 
 	// Dealloc all materials in this->materials
 	for (int i = 0; i < (this->materials.size()); i++)
-	{
 		delete this->materials[i];
-	}
 
 	// Dealloc all lights in this->lights
 	for (int i = 0; i < (this->lights.size()); i++)
-	{
 		delete this->lights[i];
-	}
 
 	// Dealloc all geometries in this->objects
 	for (int i = 0; i < (this->objects.size()); i++)
@@ -133,9 +129,9 @@ HitPoint Scene::getFirstRayIntersection(Ray ray)
 	return hp;
 }
 
-Vector3 Scene::colorPointBasedOnShadow(HitPoint hp)
+Vector3 Scene::colorPointBasedOnShadow(Ray hitRay, HitPoint hp, unsigned int recursiveDepth)
 {
-	Vector3 returnColor = Vector3(0, 0, 0); //Black
+	Vector3 returnColor = COLOR_OF_NOTHINGNESS;
 	Material* objMat = this->materials[hp.materialID];
 
 	for (unsigned int i = 0; i < this->lights.size(); i++)
@@ -145,7 +141,7 @@ Vector3 Scene::colorPointBasedOnShadow(HitPoint hp)
 
 		Vector3 lightNorm = (this->lights[i]->getPosition() - hp.intersectionPoint).normalize();
 
-		Ray rayToLight = Ray(hp.intersectionPoint + LIGHT_RAY_JITTER*lightNorm, lightNorm);
+		Ray rayToLight = Ray(hp.intersectionPoint + LIGHT_RAY_JITTER*hp.normal, lightNorm);
 		float dotProd = lightNorm.dot(hp.normal);
 		
 		if (dotProd < 0)
@@ -155,22 +151,43 @@ Vector3 Scene::colorPointBasedOnShadow(HitPoint hp)
 		Vector3 ambient = lightMat->ka * objMat->ka;
 		returnColor += ambient;
 
-		if (getFirstRayIntersection(rayToLight).dist < distFromLight)
+		// Continue to next light immediately if in shadow by this light
+		HitPoint lightHP = getFirstRayIntersection(rayToLight);
+		if (lightHP.dist < distFromLight && lightHP.dist >= 0)
 			continue;
 
 		//Diffuse
-		Vector3 diffuse = objMat->kd * (dotProd)* lightMat->kd; // TODO Times light intesnity
+		Vector3 diffuse = objMat->kd * (dotProd)* lightMat->kd;
 		returnColor += diffuse;
 
 		//Specular
 		Vector3 lightReflectVector = 2 * dotProd * hp.normal - rayToLight.getDirection();
 		Vector3 vecToCamera = (this->camera->getOrigin() - rayToLight.getOrigin()).normalize();
 
-		Vector3 specular = objMat->ks * pow(vecToCamera.dot(lightReflectVector), objMat->shiny) * lightMat->ks; // TODO times light intensity
+		Vector3 specular = objMat->ks * pow(vecToCamera.dot(lightReflectVector), objMat->shiny) * lightMat->ks;
 		returnColor += specular;
 	}
 
-	return returnColor;
+	return traceReflection(hitRay, hp, returnColor, recursiveDepth);
+}
+
+Vector3 Scene::traceReflection(Ray reflectRay, HitPoint reflectPt, Vector3 colorWOReflection, unsigned int recursiveDepth)
+{
+	Material* objMat = this->materials[reflectPt.materialID];
+
+	// Return if the surface is not reflective or if we've reached the maximum allowable recursion depth
+	if (objMat->reflect == 0 || recursiveDepth > MAX_REFLECTION_RECURSION_DEPTH)
+		return colorWOReflection;
+
+	Vector3 reflectedRayDir = reflectRay.getDirection().reflect(reflectPt.normal);
+	Ray reflectedRay = Ray(reflectPt.intersectionPoint, reflectedRayDir);
+
+	Vector3 reflectColor = COLOR_OF_NOTHINGNESS;
+	HitPoint hp = getFirstRayIntersection(reflectedRay);
+	if (hp.dist >= 0)
+		reflectColor = colorPointBasedOnShadow(reflectedRay, hp, recursiveDepth + 1);
+
+	return (colorWOReflection * (1 - objMat->reflect)) + (reflectColor * objMat->reflect);
 }
 
 unsigned int Scene::getNumObjectsInScene()

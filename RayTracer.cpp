@@ -48,7 +48,7 @@ int main(int argc, char ** argv)
 			if (hp.dist < 0)
 				c = Vector3(0, 0, 0);
 			else
-				c = scene.colorPointBasedOnShadow(hp);
+				c = scene.colorPointBasedOnShadow(r, hp);
 
 			// Keeping track of the maximum component for tone mapping later
 			if (maxComponent < c.maxComponent())

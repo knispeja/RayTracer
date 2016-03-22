@@ -5,6 +5,7 @@ struct Material {
 	Vector3 kd;
 	Vector3 ks;
 	float shiny;
+	float reflect;
 
 	//double specAlpha;
 	//double reflect;
