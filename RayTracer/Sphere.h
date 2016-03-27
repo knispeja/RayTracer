@@ -30,19 +30,19 @@ public:
 		//Nothing to delete
 	}
 
-	virtual char* getGeometryTypeName()
+	virtual char* getGeometryTypeName() const
 	{
 		return "Sphere";
 	}
 
-	virtual void printOtherData()
+	virtual void printOtherData() const
 	{
 		printf("center: (%0.2f %0.2f %0.2f)", this->center.c[0], this->center.c[1], this->center.c[2]);
 		printf(", radius: %0.2f", this->radius);
 		printf(", assigned material #%d", this->materialID);
 	}
 
-	virtual HitPoint intersectWithRay(Ray ray)
+	virtual HitPoint intersectWithRay(Ray ray) const
 	{
 		HitPoint hp = HitPoint();
 		hp.materialID = this->materialID;
@@ -62,15 +62,17 @@ public:
 		float negtop = ((d*-1).dot(e - c) - sqrt(discriminant));
 		float bot = (d.dot(d));
 
-		if (discriminant > 0)
-			hp.dist = negtop / bot;
-		
-		// Discriminant = 0, tangent, but return the same
-		hp.dist = negtop / bot;
+		// Discriminant = 0 = tangent, discriminant > 0 = regular intersect. Return same either way
+		hp.dist = negtop / bot; // TODO abs?
 
 		// Get normal vector from sphere center to intersection point
 		hp.normal = (ray.getOrigin() - this->center).normalize();
 		return hp;
+	}
+
+	virtual Vector3 getCenter() const
+	{
+		return this->center;
 	}
 
 private:

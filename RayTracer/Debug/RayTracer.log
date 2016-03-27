@@ -1,20 +1,36 @@
-﻿Build started 3/21/2016 9:14:25 PM.
+﻿Build started 3/27/2016 7:34:52 PM.
      1>Project "C:\Users\knispeja\Desktop\Graphics\RayTracer\RayTracer\RayTracer.vcxproj" on node 2 (Build target(s)).
-     1>Link:
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _CRT_SECURE_NO_WARNINGS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ..\RayTracer.cpp Scene.cpp
+         RayTracer.cpp
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\raygenerator.h(23): warning C4244: '=' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\raygenerator.h(24): warning C4244: '=' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\scene.h(46): warning C4244: '+=' : conversion from 'float' to 'unsigned char', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\scene.h(47): warning C4244: '+=' : conversion from 'float' to 'unsigned char', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\scene.h(48): warning C4244: '+=' : conversion from 'float' to 'unsigned char', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\sceneloader.h(10): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\sceneloader.h(11): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\sceneloader.h(12): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\sceneloader.h(18): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\sceneloader.h(31): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\sceneloader.h(35): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\sceneloader.h(39): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\sceneloader.h(48): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer.cpp(45): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer.cpp(69): warning C4244: 'argument' : conversion from 'float' to 'const unsigned char', possible loss of data
+         Generating Code...
+         Skipping... (no relevant changes detected)
+         Scene.cpp
+       Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\knispeja\Desktop\Graphics\RayTracer\Debug\RayTracer.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\knispeja\Desktop\Graphics\RayTracer\Debug\RayTracer.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\knispeja\Desktop\Graphics\RayTracer\Debug\RayTracer.lib" /MACHINE:X86 Debug\RayTracer.obj
          Debug\list.obj
          Debug\objLoader.obj
          Debug\obj_parser.obj
          Debug\string_extra.obj
          Debug\Scene.obj
-         LINK : C:\Users\knispeja\Desktop\Graphics\RayTracer\Debug\RayTracer.exe not found or not built by the last incremental link; performing full link
-     1>string_extra.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'string_extra.obj' or at 'C:\Users\knispeja\Desktop\Graphics\RayTracer\Debug\vc120.pdb'; linking object as if no debug info
-     1>obj_parser.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'obj_parser.obj' or at 'C:\Users\knispeja\Desktop\Graphics\RayTracer\Debug\vc120.pdb'; linking object as if no debug info
-     1>objLoader.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'objLoader.obj' or at 'C:\Users\knispeja\Desktop\Graphics\RayTracer\Debug\vc120.pdb'; linking object as if no debug info
-     1>list.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'list.obj' or at 'C:\Users\knispeja\Desktop\Graphics\RayTracer\Debug\vc120.pdb'; linking object as if no debug info
          RayTracer.vcxproj -> C:\Users\knispeja\Desktop\Graphics\RayTracer\Debug\RayTracer.exe
      1>Done Building Project "C:\Users\knispeja\Desktop\Graphics\RayTracer\RayTracer\RayTracer.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.24
+Time Elapsed 00:00:00.89

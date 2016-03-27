@@ -7,6 +7,12 @@ struct Material {
 	float shiny;
 	float reflect;
 
+	Material(float shiny, float reflect)
+	{
+		this->shiny = shiny;
+		this->reflect = reflect;
+	}
+
 	//double specAlpha;
 	//double reflect;
 	//double opacity;

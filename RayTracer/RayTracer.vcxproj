@@ -79,6 +79,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Buffer.h" />
+    <ClInclude Include="AABB.h" />
+    <ClInclude Include="BVHTreeNode.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="HitPoint.h" />
     <ClInclude Include="libs\objload\list.h" />

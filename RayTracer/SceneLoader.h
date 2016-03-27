@@ -43,15 +43,13 @@ void loadScene(Scene* scene, char* file)
 	scene->addMaterial(new Material()); // Default material
 	for (int i = 0; i < objData.materialCount; i++)
 	{
-		Material* material = new Material();
-
 		obj_material* objMat = objData.materialList[i];
+
+		Material* material = new Material(objMat->shiny, objMat->reflect);
 
 		material->ka = materialArrayToVec(objMat->amb);
 		material->kd = materialArrayToVec(objMat->diff);
 		material->ks = materialArrayToVec(objMat->spec);
-		material->shiny = objMat->shiny;
-		material->reflect = objMat->reflect;
 
 		scene->addMaterial(material);
 	}

@@ -118,6 +118,7 @@ HitPoint Scene::getFirstRayIntersection(Ray ray)
 			if (minDist == -1 || dist < minDist)
 			{
 				minDist = dist;
+				hit.objectID = i;
 				hp = hit;
 			}
 		}
@@ -153,7 +154,7 @@ Vector3 Scene::colorPointBasedOnShadow(Ray hitRay, HitPoint hp, unsigned int rec
 
 		// Continue to next light immediately if in shadow by this light
 		HitPoint lightHP = getFirstRayIntersection(rayToLight);
-		if (lightHP.dist < distFromLight && lightHP.dist >= 0)
+		if (lightHP.dist < distFromLight && lightHP.dist != -1.0f) //TODO: && lightHP.objectID != hp.objectID)
 			continue;
 
 		//Diffuse
