@@ -45,14 +45,12 @@ public:
 		printf("z: (%0.2f, %0.2f)", bbMin[2], bbMax[2]);
 	}
 
-	virtual HitPoint intersectWithRay(Ray ray) const
+	virtual bool intersectsWithRay(Ray ray, HitPoint& hit) const
 	{
-		HitPoint hp = HitPoint();
-
 		//we want to find the farthest entrance and closest exit to the box
 		//if the exit is closer than the entrance, there is no hit
 		float entrance = 0.0f;
-		float exit = hp.dist; // WHAT SHOULD THIS BE???
+		float exit = hit.dist; // WHAT SHOULD THIS BE???
 		Vector3 normal = Vector3(0, 0, 0);
 
 		for (int i = 0; i<VEC_DIM; i++)
@@ -72,10 +70,7 @@ public:
 			bool tooFar = closestHit > exit;
 
 			if (tooClose || tooFar)
-			{
-				hp.dist = -1;
-				return hp;
-			}
+				return false;
 
 			bool foundNewEntrance = closestHit > entrance;
 			entrance = foundNewEntrance ? closestHit : entrance;
@@ -91,11 +86,11 @@ public:
 			}
 		}
 
-		hp.normal = normal;
-		hp.materialID = 0;
-		hp.dist = entrance;
+		hit.normal = normal;
+		hit.materialID = 0;
+		hit.dist = entrance;
 
-		return hp;
+		return true;
 	}
 
 	virtual Vector3 getCenter() const

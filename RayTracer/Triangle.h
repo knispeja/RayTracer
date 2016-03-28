@@ -46,29 +46,20 @@ public:
 		printf(", assigned material #%d", this->materialID);
 	}
 
-	virtual HitPoint intersectWithRay(Ray ray) const
+	virtual bool intersectsWithRay(Ray ray, HitPoint& hit) const
 	{
-		HitPoint hp = HitPoint();
-		hp.materialID = this->materialID;
-
 		// Does the ray intersect the plane this triangle is in?
 		Vector3 n = getSurfaceNormal();
-		hp.normal = n; // The hitpoint normal will be the surface normal
 
 		float bot = (ray.getDirection().dot(n));
 		if (bot == 0) 
-		{
-			hp.dist = -1;
-			return hp;
-		}
+			return false;
+
 		float top = (this->v0 - ray.getOrigin()).dot(n);
 
 		float distIntWithPlane = top / bot; // TODO abs
 		if (distIntWithPlane <= 0)
-		{
-			hp.dist = -1;
-			return hp;
-		}
+			return false;
 
 		// The ray intersects the triangle's plane, so check for true intersection
 		Vector3 x = ray.getOrigin() + (ray.getDirection() * distIntWithPlane);
@@ -78,10 +69,13 @@ public:
 		bool b1 = ((this->v2 - this->v1).cross(x - this->v1)).dot(n) > 0;
 		bool b2 = ((this->v0 - this->v2).cross(x - this->v2)).dot(n) > 0;
 		if (b0 && b1 && b2)
-			hp.dist = abs(distIntWithPlane); // TODO no abs?
+			hit.dist = abs(distIntWithPlane); // TODO no abs?
 		else
-			hp.dist = -1;
-		return hp;
+			return false;
+
+		hit.materialID = this->materialID;
+		hit.normal = n; // The hitpoint normal will be the surface normal
+		return true;
 	}
 
 	virtual Vector3 getCenter() const

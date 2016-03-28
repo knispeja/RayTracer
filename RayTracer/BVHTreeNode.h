@@ -31,9 +31,9 @@ public:
 		printf("---- merp");
 	}
 
-	virtual HitPoint intersectWithRay(Ray ray) const
+	virtual bool intersectsWithRay(Ray ray, HitPoint& hit) const
 	{
-		return HitPoint();
+		return false;
 	}
 
 	virtual Vector3 getCenter() const

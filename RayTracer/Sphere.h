@@ -42,32 +42,40 @@ public:
 		printf(", assigned material #%d", this->materialID);
 	}
 
-	virtual HitPoint intersectWithRay(Ray ray) const
+	virtual bool intersectsWithRay(Ray ray, HitPoint& hit) const
 	{
-		HitPoint hp = HitPoint();
-		hp.materialID = this->materialID;
-
 		Vector3 d = ray.getDirection();
 		Vector3 e = ray.getOrigin();
 		Vector3 c = this->center;
 
 		float discriminant = pow(d.dot(e - c), 2) - (d.dot(d))*((e-c).dot(e-c)-(pow(this->radius, 2)));
 		if (discriminant < 0)
-		{
-			hp.dist = -1;
-			return hp;
-		}
+			return false;
 		
 		//float postop = ((d*-1).dot(e - c) + sqrt(discriminant)); // TODO: Far point of intersection, for translucent spheres (unused)
+		float postop = ((d*-1).dot(e - c) + sqrt(discriminant));
 		float negtop = ((d*-1).dot(e - c) - sqrt(discriminant));
 		float bot = (d.dot(d));
 
 		// Discriminant = 0 = tangent, discriminant > 0 = regular intersect. Return same either way
-		hp.dist = negtop / bot; // TODO abs?
+		float negResult = negtop / bot;
+		float posResult = postop / bot;
+
+		if (negResult < 0 && posResult < 0)
+			return false;
+		else if (negResult < 0)
+			hit.dist = posResult;
+		else if (posResult < 0)
+			hit.dist = negResult;
+		else if (negResult > posResult)
+			hit.dist = posResult;
+		else
+			hit.dist = negResult;
 
 		// Get normal vector from sphere center to intersection point
-		hp.normal = (ray.getOrigin() - this->center).normalize();
-		return hp;
+		hit.normal = (ray.getOrigin() - this->center).normalize();
+		hit.materialID = this->materialID;
+		return true;
 	}
 
 	virtual Vector3 getCenter() const

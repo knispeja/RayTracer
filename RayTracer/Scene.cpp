@@ -103,31 +103,29 @@ Camera* Scene::getCamera()
 	return this->camera;
 }
 
-HitPoint Scene::getFirstRayIntersection(Ray ray)
+bool Scene::getFirstRayIntersection(Ray ray, HitPoint& hit)
 {
 	int minDist = -1;
-	HitPoint hp;
 
-	for (int i = 0; i < (this->objects.size()); i++)
+	for (int i = 0; i < this->objects.size(); i++)
 	{
-		HitPoint hit = this->objects[i]->intersectWithRay(ray);
-		int dist = hit.dist;
-
-		if (dist >= 0)
+		HitPoint tempHit = HitPoint();
+		if (this->objects[i]->intersectsWithRay(ray, tempHit))
 		{
-			if (minDist == -1 || dist < minDist)
+			if (minDist == -1 || tempHit.dist < minDist)
 			{
-				minDist = dist;
-				hit.objectID = i;
-				hp = hit;
+				minDist = tempHit.dist;
+				tempHit.objectID = i;
+				hit = tempHit;
 			}
 		}
 	}
 
-	if (minDist != -1)
-		hp.intersectionPoint = (ray.getOrigin() + (ray.getDirection() * hp.dist));
+	if (minDist == -1)
+		return false;
 
-	return hp;
+	hit.intersectionPoint = (ray.getOrigin() + (ray.getDirection() * hit.dist)) + hit.normal * LIGHT_RAY_JITTER;
+	return true;
 }
 
 Vector3 Scene::colorPointBasedOnShadow(Ray hitRay, HitPoint hp, unsigned int recursiveDepth)
@@ -142,7 +140,7 @@ Vector3 Scene::colorPointBasedOnShadow(Ray hitRay, HitPoint hp, unsigned int rec
 
 		Vector3 lightNorm = (this->lights[i]->getPosition() - hp.intersectionPoint).normalize();
 
-		Ray rayToLight = Ray(hp.intersectionPoint + LIGHT_RAY_JITTER*hp.normal, lightNorm);
+		Ray rayToLight = Ray(hp.intersectionPoint, lightNorm);
 		float dotProd = lightNorm.dot(hp.normal);
 		
 		if (dotProd < 0)
@@ -153,9 +151,10 @@ Vector3 Scene::colorPointBasedOnShadow(Ray hitRay, HitPoint hp, unsigned int rec
 		returnColor += ambient;
 
 		// Continue to next light immediately if in shadow by this light
-		HitPoint lightHP = getFirstRayIntersection(rayToLight);
-		if (lightHP.dist < distFromLight && lightHP.dist != -1.0f) //TODO: && lightHP.objectID != hp.objectID)
-			continue;
+		HitPoint lightHP = HitPoint(); 
+		if (getFirstRayIntersection(rayToLight, lightHP))
+			if (lightHP.dist < distFromLight)
+				continue;
 
 		//Diffuse
 		Vector3 diffuse = objMat->kd * (dotProd)* lightMat->kd;
@@ -184,8 +183,8 @@ Vector3 Scene::traceReflection(Ray reflectRay, HitPoint reflectPt, Vector3 color
 	Ray reflectedRay = Ray(reflectPt.intersectionPoint, reflectedRayDir);
 
 	Vector3 reflectColor = COLOR_OF_NOTHINGNESS;
-	HitPoint hp = getFirstRayIntersection(reflectedRay);
-	if (hp.dist >= 0)
+	HitPoint hp = HitPoint();
+	if (getFirstRayIntersection(reflectedRay, hp))
 		reflectColor = colorPointBasedOnShadow(reflectedRay, hp, recursiveDepth + 1);
 
 	return (colorWOReflection * (1 - objMat->reflect)) + (reflectColor * objMat->reflect);

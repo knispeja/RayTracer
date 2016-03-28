@@ -24,7 +24,7 @@ public:
 	void printLights();
 
 	Camera* getCamera();
-	HitPoint getFirstRayIntersection(Ray ray);
+	bool getFirstRayIntersection(Ray ray, HitPoint& hit);
 	Vector3 colorPointBasedOnShadow(Ray hitRay, HitPoint hp, unsigned int recursiveDepth = 0);
 	Vector3 traceReflection(Ray reflectRay, HitPoint reflectPt, Vector3 colorWOReflection, unsigned int recursiveDepth);
 

@@ -43,9 +43,10 @@ int main(int argc, char ** argv)
 		for (unsigned int x = 0; x < RES; x++)
 		{
 			Ray r = generator.getRay(x, y);
-			HitPoint hp = scene.getFirstRayIntersection(r);
+			HitPoint hp = HitPoint();
+			
 			Vector3 c;
-			if (hp.dist < 0)
+			if (!scene.getFirstRayIntersection(r, hp))
 				c = Vector3(0, 0, 0);
 			else
 				c = scene.colorPointBasedOnShadow(r, hp);
