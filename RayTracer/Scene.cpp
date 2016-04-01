@@ -5,8 +5,6 @@ using namespace std;
 
 Scene::Scene()
 {
-	this->objects = vector<PrimitiveGeometry*>();
-
 	this->materials = vector<Material*>();
 
 	this->camera = NULL;
@@ -24,25 +22,23 @@ Scene::~Scene()
 	for (int i = 0; i < (this->lights.size()); i++)
 		delete this->lights[i];
 
-	// Dealloc all geometries in this->objects
-	for (int i = 0; i < (this->objects.size()); i++)
-	{
-		if (this->objects[i] != NULL)
-			delete this->objects[i];
-		else
-			printf("Object %d in Scene was NULL for some reason...", i);
-	}
+	// Dealloc all geometries in the scene
+	if (this->objectTree != NULL)
+		delete(this->objectTree);
+
+	//for (int i = 0; i < (this->objects.size()); i++) //TODO: dealloc tree?
+	//{
+	//	if (this->objects[i] != NULL)
+	//		delete this->objects[i];
+	//	else
+	//		printf("Object %d in Scene was NULL for some reason...", i);
+	//}
 }
 
 void Scene::setCamera(Camera* camera)
 {
 	deallocCamera();
 	this->camera = camera;
-}
-
-void Scene::addObject(PrimitiveGeometry* obj)
-{
-	this->objects.push_back(obj);
 }
 
 void Scene::printObjects()
@@ -63,20 +59,20 @@ void Scene::printObjects()
 	for (int i = 0; i < this->materials.size(); i++)
 	{
 		Vector3 ka = this->materials[i]->ka;
-		printf("Material %d ka = [%f %f %f]\n", i, ka.c[0], ka.c[1], ka.c[2]);
+		printf("Material %d ka = [%f %f %f]\n", i, ka[0], ka[1], ka[2]);
 	}
 
 	printf("---------------------------------------\n");
 	printf("Geometries:\n");
-	for (int i = 0; i < (this->objects.size()); i++)
-	{
-		this->objects[i]->print();
-	}
+	//for (int i = 0; i < (this->objects.size()); i++)
+	//{
+	//	this->objects[i]->print(); TODO: fix
+	//}
 }
 
 void Scene::addMaterial(Material* mat)
 {
-	printf("added material %d with ka %f %f %f\n", this->materials.size(), mat->ka.c[0], mat->ka.c[1], mat->ka.c[2]);
+	printf("added material %d with ka %f %f %f\n", this->materials.size(), mat->ka[0], mat->ka[1], mat->ka[2]);
 	this->materials.push_back(mat);
 }
 
@@ -103,29 +99,21 @@ Camera* Scene::getCamera()
 	return this->camera;
 }
 
+void Scene::setObjectTreeHead(BVHTreeNode* head)
+{
+	this->objectTree = head;
+	//this->objectTree->print();
+}
+
 bool Scene::getFirstRayIntersection(Ray ray, HitPoint& hit)
 {
-	int minDist = -1;
-
-	for (int i = 0; i < this->objects.size(); i++)
+	if (this->objectTree->intersectsWithRay(ray, hit))
 	{
-		HitPoint tempHit = HitPoint();
-		if (this->objects[i]->intersectsWithRay(ray, tempHit))
-		{
-			if (minDist == -1 || tempHit.dist < minDist)
-			{
-				minDist = tempHit.dist;
-				tempHit.objectID = i;
-				hit = tempHit;
-			}
-		}
+		hit.intersectionPoint = (ray.getOrigin() + (ray.getDirection() * hit.dist)) + hit.normal * LIGHT_RAY_JITTER;
+		return true;
 	}
 
-	if (minDist == -1)
-		return false;
-
-	hit.intersectionPoint = (ray.getOrigin() + (ray.getDirection() * hit.dist)) + hit.normal * LIGHT_RAY_JITTER;
-	return true;
+	return false;
 }
 
 Vector3 Scene::colorPointBasedOnShadow(Ray hitRay, HitPoint hp, unsigned int recursiveDepth)
@@ -192,5 +180,6 @@ Vector3 Scene::traceReflection(Ray reflectRay, HitPoint reflectPt, Vector3 color
 
 unsigned int Scene::getNumObjectsInScene()
 {
-	return this->objects.size();
+	return -1; //TODO: fix
+	//return this->objects.size();
 }

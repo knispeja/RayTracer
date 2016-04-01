@@ -1,5 +1,6 @@
 #pragma once
 #include "PrimitiveGeometry.h"
+#include "AABB.h"
 
 class Triangle : public PrimitiveGeometry
 {
@@ -81,6 +82,16 @@ public:
 	virtual Vector3 getCenter() const
 	{
 		return (this->v0 + this->v1 + this->v2) / 3;
+	}
+
+	virtual float getMinBound(unsigned int dim)
+	{
+		return min(min(this->v0[dim], this->v1[dim]), this->v2[dim]);
+	}
+
+	virtual float getMaxBound(unsigned int dim)
+	{
+		return max(max(this->v0[dim], this->v1[dim]), this->v2[dim]);
 	}
 
 private:

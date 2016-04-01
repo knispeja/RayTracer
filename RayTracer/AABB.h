@@ -6,25 +6,36 @@
 class AABB : public PrimitiveGeometry
 {
 public:
+	const size_t VEC_DIM = 3;
+
+	float bbMin[3];
+	float bbMax[3];
+
 	AABB()
 	{
 		for (int i = 0; i < VEC_DIM; i++)
 		{
-			bbMin[i] = 0;
-			bbMax[i] = 0;
+			this->bbMin[i] = 0;
+			this->bbMax[i] = 0;
 		}
 	}
 
-	AABB(float minX, float maxX, float minY, float maxY, float minZ, float maxZ)
+	AABB(PrimitiveGeometry** geomsToSurround, unsigned int size)
 	{
-		bbMin[0] = minX;
-		bbMax[0] = maxX;
+		for (int i = 0; i < VEC_DIM; i++)
+		{
+			this->bbMax[i] = FLT_MIN;
+			this->bbMin[i] = FLT_MAX;
+		}
 
-		bbMin[1] = minY;
-		bbMax[1] = maxY;
-
-		bbMin[2] = minZ;
-		bbMax[2] = maxZ;
+		for (int i = 0; i < size; i++)
+		{
+			for (int j = 0; j < VEC_DIM; j++)
+			{
+				this->bbMin[j] = min(this->bbMin[j], geomsToSurround[i]->getMinBound(j));
+				this->bbMax[j] = max(this->bbMax[j], geomsToSurround[i]->getMaxBound(j));
+			}
+		}
 	}
 
 	~AABB()
@@ -49,8 +60,8 @@ public:
 	{
 		//we want to find the farthest entrance and closest exit to the box
 		//if the exit is closer than the entrance, there is no hit
-		float entrance = 0.0f;
-		float exit = hit.dist; // WHAT SHOULD THIS BE???
+		float entrance = FLT_MIN;
+		float exit = FLT_MAX; // WHAT SHOULD THIS BE???
 		Vector3 normal = Vector3(0, 0, 0);
 
 		for (int i = 0; i<VEC_DIM; i++)
@@ -87,7 +98,7 @@ public:
 		}
 
 		hit.normal = normal;
-		hit.materialID = 0;
+		hit.materialID = 0; // TODO: Fixme
 		hit.dist = entrance;
 
 		return true;
@@ -97,15 +108,19 @@ public:
 	{
 		Vector3 center = Vector3();
 		for (int i = 0; i < VEC_DIM; i++)
-			center[i] = this->bbMax[i] - this->bbMin[i];
+			center[i] = (this->bbMax[i] + this->bbMin[i])/2;
 
 		return center;
 	}
 
-private:
-	const size_t VEC_DIM = 3;
+	virtual float getMinBound(unsigned int dim)
+	{
+		return this->bbMin[dim];
+	}
 
-	int bbMin[3];
-	int bbMax[3];
+	virtual float getMaxBound(unsigned int dim)
+	{
+		return this->bbMax[dim];
+	}
 };
 

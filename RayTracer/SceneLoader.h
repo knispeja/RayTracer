@@ -4,6 +4,9 @@
 #include "Sphere.h"
 #include "Triangle.h"
 
+//#pragma comment(linker, "/STACK:2000000")
+//#pragma comment(linker, "/HEAP:2000000")
+
 Vector3 objToGenVec(obj_vector const * objVec)
 {
 	Vector3 v;
@@ -18,26 +21,89 @@ Vector3 materialArrayToVec(double arr[3])
 	return Vector3(arr[0], arr[1], arr[2]);
 }
 
+BVHTreeNode* setupBVHTree(PrimitiveGeometry** primArray, unsigned int size)
+{
+	if (size == 0)
+		return NULL;
+	if (size == 1)
+		return new BVHTreeNode(primArray[0]);
+
+	AABB* bigBB = new AABB(primArray, size);
+	BVHTreeNode* thisNode = new BVHTreeNode(bigBB);
+
+	// Split prim array into left and right arrays
+	// Find dimension to split on
+	unsigned int splitI = 0;
+	float maxDimAmt = FLT_MIN;
+	for (unsigned int i = 0; i < 3; i++)
+	{
+		float dimAmt = bigBB->bbMax[i] - bigBB->bbMin[i];
+		if (dimAmt > maxDimAmt)
+		{
+			maxDimAmt = dimAmt;
+			splitI = i;
+		}
+	}
+
+	// Split is going to be the average
+	float split = (bigBB->bbMax[splitI] + bigBB->bbMin[splitI]) / 2;
+
+	// Split array
+	PrimitiveGeometry** leftArr = new PrimitiveGeometry*[size]();
+	PrimitiveGeometry** rightArr = new PrimitiveGeometry*[size]();
+	unsigned int leftI = 0;
+	unsigned int rightI = 0;
+	for (unsigned int i = 0; i < size; i++)
+	{
+		if (primArray[i]->getCenter()[splitI] < split)
+			leftArr[leftI++] = primArray[i];
+		else
+			rightArr[rightI++] = primArray[i];
+	}
+
+	// Handle the case where all of the objects got put on one side
+	if (leftI == 0)
+	{
+		leftArr[0] = rightArr[rightI - 1];
+		rightI--;
+		leftI++;
+	}
+	else if (rightI == 0)
+	{
+		rightArr[0] = leftArr[leftI - 1];
+		leftI--;
+		rightI++;
+	}
+
+	// Setup left and right nodes
+	thisNode->setLeft(setupBVHTree(leftArr, leftI));
+	thisNode->setRight(setupBVHTree(rightArr, rightI));
+}
+
 void loadScene(Scene* scene, char* file)
 {
 	//Load *.obj from file argv1
 	objLoader objData = objLoader();
 	objData.load(file);
 
-	//Create a camera object
-	Vector3 camOrigin = Vector3(objData.vertexList[objData.camera->camera_pos_index]->e[0],
-		objData.vertexList[objData.camera->camera_pos_index]->e[1],
-		objData.vertexList[objData.camera->camera_pos_index]->e[2]
-		);
-	Vector3 camLook = Vector3(objData.vertexList[objData.camera->camera_look_point_index]->e[0],
-		objData.vertexList[objData.camera->camera_look_point_index]->e[1],
-		objData.vertexList[objData.camera->camera_look_point_index]->e[2]
-		);
-	Vector3 camUp = Vector3(objData.normalList[objData.camera->camera_up_norm_index]->e[0],
-		objData.normalList[objData.camera->camera_up_norm_index]->e[1],
-		objData.normalList[objData.camera->camera_up_norm_index]->e[2]
-		);
-	scene->setCamera(new Camera(camOrigin, camLook, camUp));
+	bool missingCamera = objData.camera == NULL;
+	if (!missingCamera)
+	{
+		//Create a camera object
+		Vector3 camOrigin = Vector3(objData.vertexList[objData.camera->camera_pos_index]->e[0],
+			objData.vertexList[objData.camera->camera_pos_index]->e[1],
+			objData.vertexList[objData.camera->camera_pos_index]->e[2]
+			);
+		Vector3 camLook = Vector3(objData.vertexList[objData.camera->camera_look_point_index]->e[0],
+			objData.vertexList[objData.camera->camera_look_point_index]->e[1],
+			objData.vertexList[objData.camera->camera_look_point_index]->e[2]
+			);
+		Vector3 camUp = Vector3(objData.normalList[objData.camera->camera_up_norm_index]->e[0],
+			objData.normalList[objData.camera->camera_up_norm_index]->e[1],
+			objData.normalList[objData.camera->camera_up_norm_index]->e[2]
+			);
+		scene->setCamera(new Camera(camOrigin, camLook, camUp));
+	}
 
 	//Create materials
 	scene->addMaterial(new Material()); // Default material
@@ -65,22 +131,61 @@ void loadScene(Scene* scene, char* file)
 		scene->addLight(new Light(lightPos, materialID));
 	}
 
-	//Add geometry primitives to scene
-	for (int i = 0; i < objData.sphereCount; i++) // Add spheres to scene...
+	//Gather geometry primitives into an array
+	unsigned int numObjects = objData.sphereCount + objData.faceCount;
+	PrimitiveGeometry** objects = new PrimitiveGeometry*[numObjects]();
+
+	for (int i = 0; i < objData.sphereCount; i++) // Add spheres to array...
 	{
 		Vector3 spherePosVector = objToGenVec(objData.vertexList[objData.sphereList[i]->pos_index]);
 		Vector3 sphereUpVector = objToGenVec(objData.normalList[objData.sphereList[i]->up_normal_index]);
 
-		scene->addObject(new Sphere(objData.sphereList[i]->material_index + 1, spherePosVector, sphereUpVector.length()));
+		objects[i] = new Sphere(objData.sphereList[i]->material_index + 1, spherePosVector, sphereUpVector.length());
 	}
 
-	for (int i = 0; i < objData.faceCount; i++) // Add triangles to scene...
+	for (int i = 0; i < objData.faceCount; i++) // Add triangles to array...
 	{
 		int* vertices = objData.faceList[i]->vertex_index;
 		Vector3 v0 = objToGenVec(objData.vertexList[vertices[0]]);
 		Vector3 v1 = objToGenVec(objData.vertexList[vertices[1]]);
 		Vector3 v2 = objToGenVec(objData.vertexList[vertices[2]]);
 
-		scene->addObject(new Triangle(objData.faceList[i]->material_index + 1, v0, v1, v2));
+		objects[i + objData.sphereCount] = new Triangle(objData.faceList[i]->material_index + 1, v0, v1, v2);
 	}
+
+	// Create a BVH tree from the array 
+	scene->setObjectTreeHead(setupBVHTree(objects, numObjects));
+
+	// Handle missing camera/light
+	bool noLight = objData.lightPointCount == 0;
+	if (missingCamera || noLight)
+	{
+		AABB sceneBounds = AABB(objects, numObjects);
+
+		if (missingCamera)
+		{
+			printf("WARNING: Camera missing from *.obj file, inserting default camera...");
+			Vector3 camLook = sceneBounds.getCenter();
+			Vector3 camLocation = sceneBounds.getCenter() - (sceneBounds.getMaxBound(2) * Vector3(0, 0, 1));
+
+			scene->setCamera(new Camera(camLocation, camLook, Vector3(0, 1, 0)));
+		}
+
+		if (noLight)
+		{
+			printf("WARNING: No light sources in *.obj file, inserting a default light source...");
+
+			// Add light material
+			Vector3 ka = Vector3(1.8f, 1.5f, 0.9f);
+			Vector3 kd = Vector3(14.4f, 12.0f, 7.2f);
+			Vector3 ks = Vector3(2.0f, 2.0f, 2.0f);
+			scene->addMaterial(new Material(ka, kd, ks));
+
+			Vector3 lightPos = sceneBounds.getCenter();
+			scene->addLight(new Light(lightPos, objData.materialCount+1));
+		}
+	}
+
+	// Dispose of setup objects
+	delete(objects);
 }

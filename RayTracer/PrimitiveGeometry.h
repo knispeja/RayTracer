@@ -1,5 +1,6 @@
 #pragma once
 
+#include "minmax.h"
 #include "Material.h"
 #include "HitPoint.h"
 #include "Ray.h"
@@ -11,6 +12,9 @@ public:
 	virtual void printOtherData() const = 0;
 	virtual bool intersectsWithRay(Ray ray, HitPoint& hit) const = 0;
 	virtual Vector3 getCenter() const = 0;
+
+	virtual float getMinBound(unsigned int dim) = 0;
+	virtual float getMaxBound(unsigned int dim) = 0;
 
 	void print()
 	{

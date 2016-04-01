@@ -1,21 +1,30 @@
-﻿Build started 3/27/2016 9:07:37 PM.
+﻿Build started 3/31/2016 9:42:53 PM.
      1>Project "C:\Users\knispeja\Desktop\Graphics\RayTracer\RayTracer\RayTracer.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _CRT_SECURE_NO_WARNINGS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Scene.cpp
-         Scene.cpp
-     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\scene.h(46): warning C4244: '+=' : conversion from 'float' to 'unsigned char', possible loss of data
-     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\scene.h(47): warning C4244: '+=' : conversion from 'float' to 'unsigned char', possible loss of data
-     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\scene.h(48): warning C4244: '+=' : conversion from 'float' to 'unsigned char', possible loss of data
-     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\scene.cpp(20): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\scene.cpp(24): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\scene.cpp(28): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\scene.cpp(56): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\scene.cpp(63): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\scene.cpp(71): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\scene.cpp(95): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\scene.cpp(110): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\scene.cpp(117): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\scene.cpp(138): warning C4244: 'initializing' : conversion from 'float' to 'unsigned int', possible loss of data
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _CRT_SECURE_NO_WARNINGS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ..\RayTracer.cpp
+         RayTracer.cpp
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\raygenerator.h(23): warning C4244: '=' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\raygenerator.h(24): warning C4244: '=' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\aabb.h(16): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\aabb.h(25): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\aabb.h(31): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\aabb.h(33): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\aabb.h(67): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\aabb.h(110): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\scene.h(49): warning C4244: '+=' : conversion from 'float' to 'unsigned char', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\scene.h(50): warning C4244: '+=' : conversion from 'float' to 'unsigned char', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\scene.h(51): warning C4244: '+=' : conversion from 'float' to 'unsigned char', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\sceneloader.h(13): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\sceneloader.h(14): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\sceneloader.h(15): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\sceneloader.h(21): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\sceneloader.h(96): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\sceneloader.h(100): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\sceneloader.h(104): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\sceneloader.h(114): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer.cpp(47): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer.cpp(72): warning C4244: 'argument' : conversion from 'float' to 'const unsigned char', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\sceneloader.h(81): warning C4715: 'setupBVHTree' : not all control paths return a value
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\knispeja\Desktop\Graphics\RayTracer\Debug\RayTracer.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\knispeja\Desktop\Graphics\RayTracer\Debug\RayTracer.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\knispeja\Desktop\Graphics\RayTracer\Debug\RayTracer.lib" /MACHINE:X86 Debug\RayTracer.obj
          Debug\list.obj
@@ -28,4 +37,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.61
+Time Elapsed 00:00:00.57

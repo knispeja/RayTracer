@@ -7,24 +7,16 @@ struct Material {
 	float shiny;
 	float reflect;
 
+	Material(Vector3 ka, Vector3 kd, Vector3 ks)
+	{
+		this->ka = ka;
+		this->kd = kd;
+		this->ks = ks;
+	}
+
 	Material(float shiny, float reflect)
 	{
 		this->shiny = shiny;
 		this->reflect = reflect;
 	}
-
-	//double specAlpha;
-	//double reflect;
-	//double opacity;
-
-	/*
-	bool operator==(const Material& other)
-	{
-		return (this->ka == other.ka) &&
-			(this->kd == other.kd) &&
-			(this->ks == other.ks) &&
-			(this->specAlpha == other.specAlpha) &&
-			(this->reflect == other.reflect) &&
-			(this->opacity == other.opacity);
-	}*/
 };

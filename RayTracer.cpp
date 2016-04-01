@@ -1,5 +1,7 @@
 //Hard code resolution for now
 #define RES 100
+#define MAX_COLOR_COMPONENT 255.0f
+
 #define _USE_MATH_DEFINES //This enables math constants in Windows
 
 #include <math.h> //Math functions and some constants
@@ -14,7 +16,7 @@
 
 #include "RayTracer/SceneLoader.h"
 
-int main(int argc, char ** argv)
+int main(int argc, char** argv)
 {
 	//Create buffer
 	Buffer<Color> buffer = Buffer<Color>(RES, RES);
@@ -65,7 +67,7 @@ int main(int argc, char ** argv)
 		for (unsigned int x = 0; x < RES; x++)
 		{
 			for (unsigned int i = 0; i < 3; i++)
-				floatbuffer.at(x, y).c[i] *= (255.0f / maxComponent);
+				floatbuffer.at(x, y).c[i] *= (MAX_COLOR_COMPONENT / maxComponent);
 
 			buffer.at(x, y) = Color(floatbuffer.at(x, y).c[0], floatbuffer.at(x, y).c[1], floatbuffer.at(x, y).c[2]);
 		}

@@ -2,6 +2,8 @@
 #include "Light.h"
 #include "Camera.h"
 #include "PrimitiveGeometry.h"
+#include "BVHTreeNode.h"
+#include "AABB.h"
 
 #include <vector>
 using namespace std;
@@ -14,7 +16,6 @@ public:
 
 	void setCamera(Camera* camera);
 
-	void addObject(PrimitiveGeometry* obj);
 	void printObjects();
 	
 	void addMaterial(Material* mat);
@@ -30,15 +31,17 @@ public:
 
 	unsigned int getNumObjectsInScene();
 
+	void setObjectTreeHead(BVHTreeNode* head);
+
 private:
-	const float LIGHT_RAY_JITTER = 0.001f;
+	const float LIGHT_RAY_JITTER = 0.0001f;
 	const unsigned int MAX_REFLECTION_RECURSION_DEPTH = 10;
 	const Vector3 COLOR_OF_NOTHINGNESS = Vector3(0, 0, 0);
 
 	Camera* camera;
+	BVHTreeNode* objectTree;
 	vector<Material*> materials;
 	vector<Light*> lights;
-	vector<PrimitiveGeometry*> objects;
 
 	Color addVector3ToColor(Color c, Vector3 vec)
 	{

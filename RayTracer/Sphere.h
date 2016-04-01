@@ -1,5 +1,6 @@
 #pragma once
 #include "PrimitiveGeometry.h"
+#include "AABB.h"
 
 class Sphere : public PrimitiveGeometry
 {
@@ -81,6 +82,16 @@ public:
 	virtual Vector3 getCenter() const
 	{
 		return this->center;
+	}
+
+	virtual float getMinBound(unsigned int dim)
+	{
+		return this->center[dim] - radius;
+	}
+
+	virtual float getMaxBound(unsigned int dim)
+	{
+		return this->center[dim] + radius;
 	}
 
 private:
