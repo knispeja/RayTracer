@@ -1,6 +1,7 @@
 //Hard code resolution for now
 #define RES 100
 #define MAX_COLOR_COMPONENT 255.0f
+#define NUM_SUBPIXELS 1
 
 #define _USE_MATH_DEFINES //This enables math constants in Windows
 
@@ -35,7 +36,7 @@ int main(int argc, char** argv)
 	scene.printObjects(); // Print everything in the scene for testing
 
 	//Create a ray generator for the camera
-	RayGenerator generator = RayGenerator(scene.getCamera(), RES, RES);
+	RayGenerator generator = RayGenerator(scene.getCamera(), RES*NUM_SUBPIXELS, RES*NUM_SUBPIXELS);
 
 	//Test ray generator by changing pixel colors
 
@@ -44,20 +45,29 @@ int main(int argc, char** argv)
 	{
 		for (unsigned int x = 0; x < RES; x++)
 		{
-			Ray r = generator.getRay(x, y);
-			HitPoint hp = HitPoint();
-			
-			Vector3 c;
-			if (!scene.getFirstRayIntersection(r, hp))
-				c = Vector3(0, 0, 0);
-			else
-				c = scene.colorPointBasedOnShadow(r, hp);
+			Vector3 totalColor = Vector3(0, 0, 0);
+
+			for (unsigned int i = 0; i < NUM_SUBPIXELS; i++)
+			{
+				Ray r = generator.getRay(x * NUM_SUBPIXELS + i, y * NUM_SUBPIXELS + i);
+				HitPoint hp = HitPoint();
+
+				Vector3 c;
+				if (!scene.getFirstRayIntersection(r, hp))
+					c = Vector3(0, 0, 0);
+				else
+					c = scene.colorPointBasedOnShadow(r, hp);
+
+				totalColor += c;
+			}
+
+			totalColor /= NUM_SUBPIXELS; // Average subpixel colors
 
 			// Keeping track of the maximum component for tone mapping later
-			if (maxComponent < c.maxComponent())
-				maxComponent = c.maxComponent();
+			if (maxComponent < totalColor.maxComponent())
+				maxComponent = totalColor.maxComponent();
 
-			floatbuffer.at(x, y) = c;
+			floatbuffer.at(x, y) = totalColor;
 		}
 	}
 

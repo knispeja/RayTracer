@@ -381,8 +381,8 @@ public:
 	int maxMagnitudeComponent()
 	{
 		int largest = 0;
-		for(int i=1; i<dimension; i++)
-			if(fabs(c[i]) > fabs(c[i-1]))
+		for (int i = 1; i < dimension; i++)
+			if (fabs(c[largest]) < fabs(c[i]))
 				largest = i;
 		return largest;
 	}

@@ -6,29 +6,24 @@
 class AABB : public PrimitiveGeometry
 {
 public:
-	const size_t VEC_DIM = 3;
+	const unsigned int VEC_DIM = 3;
 
-	float bbMin[3];
-	float bbMax[3];
+	Vector3 bbMin;
+	Vector3 bbMax;
 
 	AABB()
 	{
-		for (int i = 0; i < VEC_DIM; i++)
-		{
-			this->bbMin[i] = 0;
-			this->bbMax[i] = 0;
-		}
+		this->bbMin = Vector3(0, 0, 0);
+		this->bbMax = Vector3(0, 0, 0);
 	}
 
-	AABB(PrimitiveGeometry** geomsToSurround, unsigned int size)
+	AABB(PrimitiveGeometry** geomsToSurround, int size)
 	{
-		for (int i = 0; i < VEC_DIM; i++)
-		{
-			this->bbMax[i] = FLT_MIN;
-			this->bbMin[i] = FLT_MAX;
-		}
+		PrimitiveGeometry* firstGeom = geomsToSurround[0];
+		this->bbMax = Vector3(firstGeom->getMaxBound(0), firstGeom->getMaxBound(1), firstGeom->getMaxBound(2));
+		this->bbMin = Vector3(firstGeom->getMinBound(0), firstGeom->getMinBound(1), firstGeom->getMinBound(2));
 
-		for (int i = 0; i < size; i++)
+		for (int i = 1; i < size; i++)
 		{
 			for (int j = 0; j < VEC_DIM; j++)
 			{
@@ -50,18 +45,18 @@ public:
 
 	virtual void printOtherData() const
 	{
-		printf("---- (min  max)");
-		printf("x: (%0.2f, %0.2f)", bbMin[0], bbMax[0]);
-		printf("y: (%0.2f, %0.2f)", bbMin[1], bbMax[1]);
-		printf("z: (%0.2f, %0.2f)", bbMin[2], bbMax[2]);
+		printf("\n---- (min  max)\n");
+		printf("x: (%0.2f, %0.2f)\n", bbMin[0], bbMax[0]);
+		printf("y: (%0.2f, %0.2f)\n", bbMin[1], bbMax[1]);
+		printf("z: (%0.2f, %0.2f)\n", bbMin[2], bbMax[2]);
 	}
 
 	virtual bool intersectsWithRay(Ray ray, HitPoint& hit) const
 	{
 		//we want to find the farthest entrance and closest exit to the box
 		//if the exit is closer than the entrance, there is no hit
-		float entrance = FLT_MIN;
-		float exit = FLT_MAX; // WHAT SHOULD THIS BE???
+		float entrance = -1.0f * (FLT_MAX - 1.0f);
+		float exit = FLT_MAX;
 		Vector3 normal = Vector3(0, 0, 0);
 
 		for (int i = 0; i<VEC_DIM; i++)

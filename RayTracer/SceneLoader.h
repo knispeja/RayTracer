@@ -4,9 +4,6 @@
 #include "Sphere.h"
 #include "Triangle.h"
 
-//#pragma comment(linker, "/STACK:2000000")
-//#pragma comment(linker, "/HEAP:2000000")
-
 Vector3 objToGenVec(obj_vector const * objVec)
 {
 	Vector3 v;
@@ -29,24 +26,12 @@ BVHTreeNode* setupBVHTree(PrimitiveGeometry** primArray, unsigned int size)
 		return new BVHTreeNode(primArray[0]);
 
 	AABB* bigBB = new AABB(primArray, size);
-	BVHTreeNode* thisNode = new BVHTreeNode(bigBB);
 
-	// Split prim array into left and right arrays
 	// Find dimension to split on
-	unsigned int splitI = 0;
-	float maxDimAmt = FLT_MIN;
-	for (unsigned int i = 0; i < 3; i++)
-	{
-		float dimAmt = bigBB->bbMax[i] - bigBB->bbMin[i];
-		if (dimAmt > maxDimAmt)
-		{
-			maxDimAmt = dimAmt;
-			splitI = i;
-		}
-	}
+	unsigned int splitI = (bigBB->bbMax - bigBB->bbMin).maxMagnitudeComponent();
 
 	// Split is going to be the average
-	float split = (bigBB->bbMax[splitI] + bigBB->bbMin[splitI]) / 2;
+	float split = (bigBB->bbMax[splitI] + bigBB->bbMin[splitI]) / 2.0f;
 
 	// Split array
 	PrimitiveGeometry** leftArr = new PrimitiveGeometry*[size]();
@@ -64,20 +49,23 @@ BVHTreeNode* setupBVHTree(PrimitiveGeometry** primArray, unsigned int size)
 	// Handle the case where all of the objects got put on one side
 	if (leftI == 0)
 	{
-		leftArr[0] = rightArr[rightI - 1];
 		rightI--;
+		leftArr[0] = rightArr[rightI];
 		leftI++;
 	}
 	else if (rightI == 0)
 	{
-		rightArr[0] = leftArr[leftI - 1];
 		leftI--;
+		rightArr[0] = leftArr[leftI];
 		rightI++;
 	}
 
-	// Setup left and right nodes
+	// Create and return node
+	BVHTreeNode* thisNode = new BVHTreeNode(bigBB);
 	thisNode->setLeft(setupBVHTree(leftArr, leftI));
 	thisNode->setRight(setupBVHTree(rightArr, rightI));
+
+	return thisNode;
 }
 
 void loadScene(Scene* scene, char* file)
@@ -154,6 +142,7 @@ void loadScene(Scene* scene, char* file)
 	}
 
 	// Create a BVH tree from the array 
+	printf("Building BVH tree...\n");
 	scene->setObjectTreeHead(setupBVHTree(objects, numObjects));
 
 	// Handle missing camera/light
@@ -164,16 +153,16 @@ void loadScene(Scene* scene, char* file)
 
 		if (missingCamera)
 		{
-			printf("WARNING: Camera missing from *.obj file, inserting default camera...");
+			printf("WARNING: Camera missing from *.obj file, inserting default camera...\n");
 			Vector3 camLook = sceneBounds.getCenter();
-			Vector3 camLocation = sceneBounds.getCenter() - (sceneBounds.getMaxBound(2) * Vector3(0, 0, 1));
+			Vector3 camLocation = sceneBounds.getCenter() - ((sceneBounds.getMaxBound(2) * 1.6f) * Vector3(0, 0, 1)) - ((sceneBounds.getMaxBound(0) * 0.5f) * Vector3(1, 0, 0));
 
 			scene->setCamera(new Camera(camLocation, camLook, Vector3(0, 1, 0)));
 		}
 
 		if (noLight)
 		{
-			printf("WARNING: No light sources in *.obj file, inserting a default light source...");
+			printf("WARNING: No light sources in *.obj file, inserting default light sources...\n");
 
 			// Add light material
 			Vector3 ka = Vector3(1.8f, 1.5f, 0.9f);
@@ -181,11 +170,8 @@ void loadScene(Scene* scene, char* file)
 			Vector3 ks = Vector3(2.0f, 2.0f, 2.0f);
 			scene->addMaterial(new Material(ka, kd, ks));
 
-			Vector3 lightPos = sceneBounds.getCenter();
-			scene->addLight(new Light(lightPos, objData.materialCount+1));
+			scene->addLight(new Light(sceneBounds.getCenter(), objData.materialCount+1));
+			scene->addLight(new Light(scene->getCamera()->getOrigin(), objData.materialCount + 1));
 		}
 	}
-
-	// Dispose of setup objects
-	delete(objects);
 }
