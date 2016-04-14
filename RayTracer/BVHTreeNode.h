@@ -106,6 +106,16 @@ public:
 		return (this->left == NULL && this->right == NULL);
 	}
 
+	unsigned int getTreeSize()
+	{
+		unsigned int result = 1;
+		if (this->left != NULL)
+			result += this->left->getTreeSize();
+		if (this->right != NULL)
+			result += this->right->getTreeSize();
+		return result;
+	}
+
 private:
 	BVHTreeNode* left;
 	BVHTreeNode* right;

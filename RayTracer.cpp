@@ -1,7 +1,7 @@
 //Hard code resolution for now
-#define RES 100
+#define RES 200
 #define MAX_COLOR_COMPONENT 255.0f
-#define NUM_SUBPIXELS 1
+#define NUM_SUBPIXELS 4
 
 #define _USE_MATH_DEFINES //This enables math constants in Windows
 
@@ -17,8 +17,13 @@
 
 #include "RayTracer/SceneLoader.h"
 
+#include <time.h>
+
 int main(int argc, char** argv)
 {
+	time_t start, end;
+	time(&start);
+
 	//Create buffer
 	Buffer<Color> buffer = Buffer<Color>(RES, RES);
 	Buffer<Vector3> floatbuffer = Buffer<Vector3>(RES, RES);
@@ -38,8 +43,9 @@ int main(int argc, char** argv)
 	//Create a ray generator for the camera
 	RayGenerator generator = RayGenerator(scene.getCamera(), RES*NUM_SUBPIXELS, RES*NUM_SUBPIXELS);
 
-	//Test ray generator by changing pixel colors
+	printf("Rendering scene...");
 
+	// Generate rays from camera
 	float maxComponent = -1;
 	for (unsigned int y = 0; y < RES; y++)
 	{
@@ -86,5 +92,7 @@ int main(int argc, char** argv)
 	//Write output buffer to file argv2
 	simplePNG_write(argv[2], buffer.getWidth(), buffer.getHeight(), (unsigned char*)&buffer.at(0, 0));
 	
+	time(&end);
+	printf("\n---\nTIME ELAPSED: %f second(s)\n", difftime(end, start));
 	return 0;
 }

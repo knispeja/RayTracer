@@ -63,7 +63,7 @@ void Scene::printObjects()
 	}
 
 	printf("---------------------------------------\n");
-	printf("Geometries:\n");
+	//printf("Geometries:\n");
 	//for (int i = 0; i < (this->objects.size()); i++)
 	//{
 	//	this->objects[i]->print(); TODO: fix
@@ -72,7 +72,7 @@ void Scene::printObjects()
 
 void Scene::addMaterial(Material* mat)
 {
-	printf("added material %d with ka %f %f %f\n", this->materials.size(), mat->ka[0], mat->ka[1], mat->ka[2]);
+	//printf("added material %d with ka %f %f %f\n", this->materials.size(), mat->ka[0], mat->ka[1], mat->ka[2]);
 	this->materials.push_back(mat);
 }
 
@@ -178,8 +178,7 @@ Vector3 Scene::traceReflection(Ray reflectRay, HitPoint reflectPt, Vector3 color
 	return (colorWOReflection * (1 - objMat->reflect)) + (reflectColor * objMat->reflect);
 }
 
-unsigned int Scene::getNumObjectsInScene()
+unsigned int Scene::getNumNodes()
 {
-	return -1; //TODO: fix
-	//return this->objects.size();
+	return this->objectTree->getTreeSize();
 }

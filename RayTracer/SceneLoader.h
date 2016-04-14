@@ -143,7 +143,9 @@ void loadScene(Scene* scene, char* file)
 
 	// Create a BVH tree from the array 
 	printf("Building BVH tree...\n");
+
 	scene->setObjectTreeHead(setupBVHTree(objects, numObjects));
+	printf("Finished. Number of nodes: %d\n", scene->getNumNodes());
 
 	// Handle missing camera/light
 	bool noLight = objData.lightPointCount == 0;
