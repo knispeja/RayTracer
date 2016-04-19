@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "Sphere.h"
 #include "Triangle.h"
+#include "Light.h"
 
 Vector3 objToGenVec(obj_vector const * objVec)
 {

@@ -1,4 +1,4 @@
-﻿Build started 4/11/2016 2:22:49 PM.
+﻿Build started 4/19/2016 5:07:51 PM.
      1>Project "C:\Users\knispeja\Desktop\Graphics\RayTracer\RayTracer\RayTracer.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D _CRT_SECURE_NO_WARNINGS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ..\RayTracer.cpp
@@ -11,14 +11,14 @@
      1>c:\users\knispeja\desktop\graphics\raytracer\RayTracer/Scene.h(49): warning C4244: '+=' : conversion from 'float' to 'unsigned char', possible loss of data
      1>c:\users\knispeja\desktop\graphics\raytracer\RayTracer/Scene.h(50): warning C4244: '+=' : conversion from 'float' to 'unsigned char', possible loss of data
      1>c:\users\knispeja\desktop\graphics\raytracer\RayTracer/Scene.h(51): warning C4244: '+=' : conversion from 'float' to 'unsigned char', possible loss of data
-     1>c:\users\knispeja\desktop\graphics\raytracer\RayTracer/SceneLoader.h(10): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
      1>c:\users\knispeja\desktop\graphics\raytracer\RayTracer/SceneLoader.h(11): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
      1>c:\users\knispeja\desktop\graphics\raytracer\RayTracer/SceneLoader.h(12): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
-     1>c:\users\knispeja\desktop\graphics\raytracer\RayTracer/SceneLoader.h(18): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>c:\users\knispeja\desktop\graphics\raytracer\RayTracer/SceneLoader.h(84): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>c:\users\knispeja\desktop\graphics\raytracer\RayTracer/SceneLoader.h(88): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>c:\users\knispeja\desktop\graphics\raytracer\RayTracer/SceneLoader.h(92): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>c:\users\knispeja\desktop\graphics\raytracer\RayTracer/SceneLoader.h(102): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\RayTracer/SceneLoader.h(13): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\RayTracer/SceneLoader.h(19): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\RayTracer/SceneLoader.h(85): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\RayTracer/SceneLoader.h(89): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\RayTracer/SceneLoader.h(93): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>c:\users\knispeja\desktop\graphics\raytracer\RayTracer/SceneLoader.h(103): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
      1>..\RayTracer.cpp(58): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
      1>..\RayTracer.cpp(88): warning C4244: 'argument' : conversion from 'float' to 'const unsigned char', possible loss of data
        Link:
@@ -35,4 +35,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.50
+Time Elapsed 00:00:03.22
