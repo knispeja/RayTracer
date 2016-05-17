@@ -27,8 +27,8 @@ public:
 		{
 			for (int j = 0; j < VEC_DIM; j++)
 			{
-				this->bbMin[j] = min(this->bbMin[j], geomsToSurround[i]->getMinBound(j));
-				this->bbMax[j] = max(this->bbMax[j], geomsToSurround[i]->getMaxBound(j));
+				this->bbMin[j] = std::min(this->bbMin[j], geomsToSurround[i]->getMinBound(j));
+				this->bbMax[j] = std::max(this->bbMax[j], geomsToSurround[i]->getMaxBound(j));
 			}
 		}
 	}

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "minmax.h"
 #include "Material.h"
 #include "HitPoint.h"
 #include "Ray.h"
