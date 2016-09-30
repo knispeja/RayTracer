@@ -1,5 +1,5 @@
 //Hard code resolution for now
-#define RES 200
+#define RES 250
 #define MAX_COLOR_COMPONENT 255.0f
 #define NUM_SUBPIXELS 4
 

@@ -1,55 +1,9 @@
-﻿Build started 5/17/2016 1:32:04 PM.
-     1>Project "C:\Users\knispeja\Desktop\Graphics\RayTracer\RayTracer\RayTracer.vcxproj" on node 2 (Build target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D _CRT_SECURE_NO_WARNINGS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ..\RayTracer.cpp Scene.cpp
-         RayTracer.cpp
-     1>c:\users\knispeja\desktop\graphics\raytracer\RayTracer/RayGenerator.h(23): warning C4244: '=' : conversion from 'unsigned int' to 'float', possible loss of data
-     1>c:\users\knispeja\desktop\graphics\raytracer\RayTracer/RayGenerator.h(24): warning C4244: '=' : conversion from 'unsigned int' to 'float', possible loss of data
-     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\AABB.h(28): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\AABB.h(62): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\AABB.h(105): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\knispeja\desktop\graphics\raytracer\RayTracer/Scene.h(49): warning C4244: '+=' : conversion from 'float' to 'unsigned char', possible loss of data
-     1>c:\users\knispeja\desktop\graphics\raytracer\RayTracer/Scene.h(50): warning C4244: '+=' : conversion from 'float' to 'unsigned char', possible loss of data
-     1>c:\users\knispeja\desktop\graphics\raytracer\RayTracer/Scene.h(51): warning C4244: '+=' : conversion from 'float' to 'unsigned char', possible loss of data
-     1>c:\users\knispeja\desktop\graphics\raytracer\RayTracer/SceneLoader.h(11): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
-     1>c:\users\knispeja\desktop\graphics\raytracer\RayTracer/SceneLoader.h(12): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
-     1>c:\users\knispeja\desktop\graphics\raytracer\RayTracer/SceneLoader.h(13): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
-     1>c:\users\knispeja\desktop\graphics\raytracer\RayTracer/SceneLoader.h(19): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>c:\users\knispeja\desktop\graphics\raytracer\RayTracer/SceneLoader.h(85): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>c:\users\knispeja\desktop\graphics\raytracer\RayTracer/SceneLoader.h(89): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>c:\users\knispeja\desktop\graphics\raytracer\RayTracer/SceneLoader.h(93): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>c:\users\knispeja\desktop\graphics\raytracer\RayTracer/SceneLoader.h(103): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>..\RayTracer.cpp(58): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
-     1>..\RayTracer.cpp(88): warning C4244: 'argument' : conversion from 'float' to 'const unsigned char', possible loss of data
-         Scene.cpp
-     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\AABB.h(28): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\AABB.h(62): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\AABB.h(105): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\Scene.h(49): warning C4244: '+=' : conversion from 'float' to 'unsigned char', possible loss of data
-     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\Scene.h(50): warning C4244: '+=' : conversion from 'float' to 'unsigned char', possible loss of data
-     1>c:\users\knispeja\desktop\graphics\raytracer\raytracer\Scene.h(51): warning C4244: '+=' : conversion from 'float' to 'unsigned char', possible loss of data
-     1>Scene.cpp(18): warning C4018: '<' : signed/unsigned mismatch
-     1>Scene.cpp(22): warning C4018: '<' : signed/unsigned mismatch
-     1>Scene.cpp(52): warning C4018: '<' : signed/unsigned mismatch
-     1>Scene.cpp(59): warning C4018: '<' : signed/unsigned mismatch
-     1>Scene.cpp(91): warning C4018: '<' : signed/unsigned mismatch
-     1>Scene.cpp(126): warning C4244: 'initializing' : conversion from 'float' to 'unsigned int', possible loss of data
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\knispeja\Desktop\Graphics\RayTracer\Release\RayTracer.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\knispeja\Desktop\Graphics\RayTracer\Release\RayTracer.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\knispeja\Desktop\Graphics\RayTracer\Release\RayTracer.lib" /MACHINE:X86 /SAFESEH Release\RayTracer.obj
-         Release\list.obj
-         Release\objLoader.obj
-         Release\obj_parser.obj
-         Release\string_extra.obj
-         Release\Scene.obj
-         Generating code
-         Finished generating code
-     1>list.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'list.obj' or at 'C:\Users\knispeja\Desktop\Graphics\RayTracer\Release\vc120.pdb'; linking object as if no debug info
-     1>objLoader.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'objLoader.obj' or at 'C:\Users\knispeja\Desktop\Graphics\RayTracer\Release\vc120.pdb'; linking object as if no debug info
-     1>obj_parser.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'obj_parser.obj' or at 'C:\Users\knispeja\Desktop\Graphics\RayTracer\Release\vc120.pdb'; linking object as if no debug info
-     1>string_extra.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'string_extra.obj' or at 'C:\Users\knispeja\Desktop\Graphics\RayTracer\Release\vc120.pdb'; linking object as if no debug info
-         RayTracer.vcxproj -> C:\Users\knispeja\Desktop\Graphics\RayTracer\Release\RayTracer.exe
-     1>Done Building Project "C:\Users\knispeja\Desktop\Graphics\RayTracer\RayTracer\RayTracer.vcxproj" (Build target(s)).
+﻿Build started 9/29/2016 10:48:18 PM.
+     1>Project "C:\Users\knispeja\Desktop\School\Graphics\RayTracer\RayTracer\RayTracer.vcxproj" on node 2 (Build target(s)).
+     1>Link:
+         RayTracer.vcxproj -> C:\Users\knispeja\Desktop\School\Graphics\RayTracer\Release\RayTracer.exe
+     1>Done Building Project "C:\Users\knispeja\Desktop\School\Graphics\RayTracer\RayTracer\RayTracer.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:03.47
+Time Elapsed 00:00:00.04
