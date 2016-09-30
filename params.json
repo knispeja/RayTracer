@@ -1,0 +1,6 @@
+{
+  "name": "Ray Tracing",
+  "tagline": "A ray tracing renderer written in C++",
+  "body": "### Overview\r\nThe aim of this project was to create a ray tracer which, given a .obj file, will output an image rendering of the object contained within. If the .obj file is not modified slightly to contain a camera (with position, look direction, and FOV) and/or lights (with position, color, and intensity), then the renderer picks the best values for these missing ones in an attempt to present the scene in a reasonable way.\r\n\r\n### Examples & Features\r\nBelow are some examples of scenes rendered with my ray tracer. As you can see from some of the images, the ray tracer is capable of handling all three types of lighting (ambient/specular/diffuse), reflections, and shadows.  \r\n\r\n![Cornell Boxes](fixme.png)\r\n\r\n### Authors and Contributors\r\nJust me, Jacob Knispel (@knispeja) :)\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
