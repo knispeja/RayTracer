@@ -102,6 +102,19 @@ header h2 {
   margin-bottom: 40px;
 }
 
+.imgContainer {
+  float: left;
+}
+
+.imgContainer img {
+  padding: 10px;
+  margin: 20px;
+}
+
+.imgContainer p {
+  text-align: center;
+}
+
 a.button {
   display: block;
   float: left;

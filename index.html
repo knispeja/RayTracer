@@ -37,18 +37,53 @@
 <p>The aim of this project was to create a ray tracer which, given a .obj file, will output an image rendering of the object contained within. If the .obj file is not modified slightly to contain a camera (with position, look direction, and FOV) and/or lights (with position, color, and intensity), then the renderer picks the best values for these missing ones in an attempt to present the scene in a reasonable way.</p>
 
 <h3>
-<a id="examples--features" class="anchor" href="#examples--features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Examples &amp; Features</h3>
+<a id="examples--features" class="anchor" href="#examples--features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Features</h3>
 
-<p>Below are some examples of scenes rendered with my ray tracer. As you can see from some of the images, the ray tracer is capable of handling all three types of lighting (ambient/specular/diffuse), reflections, and shadows.  </p>
+<p>
+As you can see from some of the images in the next section, the ray tracer is capable of handling all three types of lighting (ambient/specular/diffuse), reflections, and shadows.
+<br>
+<br>
+In order to speed up rendering time, the ray tracer features a BVH tree. Normally, the renderer must check every polygon in the scene when a ray is cast. A BVH tree limits the number of polygons that need to be checked. Basically, this means that every .obj is split into a tree where the root node is a bounding box that I create. 
+<br>
+<br>
+The children of the root are bounding boxes containing half as much geometry, and so on until you reach the actual geometries themselves. So, instead of checking ray collision against real geometry, we check its collision with bounding boxes. This means that rays which miss all or many objects take up much less computation time. 
+<br>
+<br>
+More information can be found on using BVH trees for efficient ray tracing <a href="https://graphics.stanford.edu/~boulos/papers/efficient_notes.pdf" target="_blank">here</a>.
+</p>
 
-<p><img src="images/cornell-boxes.png" alt="Cornell Boxes"><br>Cornell Boxes</p>
-
-<p><img src="images/dragon-part.png" alt="Part of a Dragon"><br>Part of a Dragon</p>
 
 <h3>
-<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<a id="examples--features" class="anchor" href="#examples--features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Examples</h3>
 
-<p>Just me, Jacob Knispel (<a href="https://github.com/knispeja" class="user-mention">@knispeja</a>) :)</p>
+<p>Below are some examples of scenes rendered with my ray tracer.</p>
+
+
+<div class="imageRow">
+  <div class="imgContainer">
+    <img src="images/cornell-boxes.png" alt="Cornell Boxes">
+    <p>Cornell Boxes</p>
+  </div>
+
+  <div class="imgContainer">
+    <img src="images/bluesphere.png" alt="Sphere of Triangles">
+    <p>Sphere of Triangles</p>
+  </div>
+</div>
+
+<div class="imageRow">
+  <div class="imgContainer">
+    <img src="images/bunny.png" alt="Bunny">
+    <p>Bunny from Behind</p>
+  </div>
+
+  <div class="imgContainer">
+    <img src="images/teapots.png" alt="Teapots">
+    <p>Teapots</p>
+  </div>
+</div>
+
+<h3>
         </section>
 
         <footer>
